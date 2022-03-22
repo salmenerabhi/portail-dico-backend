@@ -22,7 +22,7 @@ public class Faq {
     private String question;
     private String answer;
     
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.PERSIST)
     private UserEntity user;
 	public UserEntity getUser() {
 		return user;

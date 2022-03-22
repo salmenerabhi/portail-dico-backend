@@ -1,9 +1,11 @@
 package com.actia.projects.services;
 
+import java.security.SecureRandom;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
+import java.util.Random;
 
 import org.springframework.stereotype.Service;
 
@@ -20,6 +22,8 @@ import io.jsonwebtoken.SignatureAlgorithm;
 public class JwtUtil {
 	
 	private final  String  secretKey = "926D96C90030DD58429D2751AC1BDBBC";
+	   private final Random RANDOM = new SecureRandom();
+
 
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
@@ -60,10 +64,20 @@ public class JwtUtil {
 	      
 		return Jwts.builder()
 				.setSubject(email)
-				.setExpiration(new Date(System.currentTimeMillis() +1000*60 ))
+				.setExpiration(new Date(System.currentTimeMillis() +10000*60 ))
 				.signWith(SignatureAlgorithm.HS512, secretKey )
 				.compact();
 	   
    }
+    
+    public String generateStringId(int length) {
+        StringBuilder returnValue = new StringBuilder(length);
+
+        for (int i = 0; i < length; i++) {
+            returnValue.append(secretKey.charAt(RANDOM.nextInt(secretKey.length())));
+        }
+
+        return new String(returnValue);
+    }
 
 }

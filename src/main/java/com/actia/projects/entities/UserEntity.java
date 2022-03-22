@@ -3,8 +3,12 @@ package com.actia.projects.entities;
 import javax.persistence.*;
 
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.util.Date;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "users")
@@ -33,6 +37,30 @@ public class UserEntity {
 	private Site site;
 	@OneToOne( optional = true, cascade = CascadeType.ALL)
     private FileDB image;
+	
+	@OneToMany( cascade = CascadeType.ALL, orphanRemoval = true)
+	  private Set<Tool> tool;
+	@OneToMany( cascade = CascadeType.ALL, orphanRemoval = true)
+	  private List<RequestFile> requestFile;
+
+	public Set<Tool> getTool() {
+		return tool;
+	}
+
+	public void setTool(Set<Tool> tool) {
+		this.tool = tool;
+	}
+
+	
+	public List<RequestFile> getRequestFile() {
+		return requestFile;
+	}
+
+	public void setRequestFile(List<RequestFile> requestFile) {
+		 this.requestFile = requestFile;
+	}
+	
+	
 
 	public UserEntity() {
 		super();
@@ -44,8 +72,11 @@ public class UserEntity {
         this.email = email;
     }
 
-	public UserEntity(String id, String firstName, String lastName, String password, String email, Date creationDate, Role role,
-			Site site, FileDB image) {
+
+
+
+	public UserEntity(String id, String firstName, String lastName, String password, String email, Date creationDate,
+			Role role, Site site, FileDB image, Set<Tool> tool) {
 		super();
 		this.id = id;
 		this.firstName = firstName;
@@ -56,9 +87,8 @@ public class UserEntity {
 		this.role = role;
 		this.site = site;
 		this.image = image;
+		this.tool = tool;
 	}
-
-
 
 	public String getId() {
 		return id;

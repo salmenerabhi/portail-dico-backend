@@ -23,7 +23,6 @@ public class RequestFile {
 	@GenericGenerator(name = "uuid", strategy = "uuid2")
 	private String id;
 	private String name;
-	private String type;	
 	private String ecu;
 	private Date echeanceRC;
 	private Date echeanceRD;
@@ -64,8 +63,22 @@ public class RequestFile {
 	public enum State{
 		unstarted,in_progress,rejected,finished
 	}	
-	@Lob
-	  private byte[] data;
+	
+	@Column(name ="infos")
+	@Enumerated(EnumType.STRING)
+	private Infos infos;
+	public enum Infos{
+		manual_modification_on_demand,
+		spell_check,
+		number_per_star,
+		words_in_min_except_abbreviations,
+		surplus_of_spaces,
+		truncated_words,
+		existing_sentence,
+		period_at_the_end_of_the_line,
+		duplicates
+	}
+	
 	public String getId() {
 		return id;
 	}
@@ -78,12 +91,7 @@ public class RequestFile {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public String getType() {
-		return type;
-	}
-	public void setType(String type) {
-		this.type = type;
-	}
+	
 	public String getEcu() {
 		return ecu;
 	}
@@ -138,19 +146,20 @@ public class RequestFile {
 	public void setState(State state) {
 		this.state = state;
 	}
-	public byte[] getData() {
-		return data;
+
+	public Infos getInfos() {
+		return infos;
 	}
-	public void setData(byte[] data) {
-		this.data = data;
+	public void setInfos(Infos infos) {
+		this.infos = infos;
 	}
-	public RequestFile(String id, String name, String type, String ecu, Date echeanceRC, Date echeanceRD,
-			FileType fileType, Marque marque, Cible cible, Fonctionnalite fonctionnalite, Langue langue, State state,
-			byte[] data) {
+	
+	
+	public RequestFile(String id, String name, String ecu, Date echeanceRC, Date echeanceRD, FileType fileType,
+			Marque marque, Cible cible, Fonctionnalite fonctionnalite, Langue langue, State state, Infos infos) {
 		super();
 		this.id = id;
 		this.name = name;
-		this.type = type;
 		this.ecu = ecu;
 		this.echeanceRC = echeanceRC;
 		this.echeanceRD = echeanceRD;
@@ -160,7 +169,7 @@ public class RequestFile {
 		this.fonctionnalite = fonctionnalite;
 		this.langue = langue;
 		this.state = state;
-		this.data = data;
+		this.infos = infos;
 	}
 	public RequestFile() {
 		super();

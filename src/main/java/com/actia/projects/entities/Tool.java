@@ -20,12 +20,7 @@ public class Tool {
 	  private String name;
 	  private String description;
 	  private String type;
-
-	  @Lob
-	  private byte[] data; 
-	  
-	  @OneToOne( optional = true, cascade = CascadeType.ALL)
-	    private FileDB image;
+	  private String image;
 
 	public String getId() {
 		return id;
@@ -59,29 +54,22 @@ public class Tool {
 		this.type = type;
 	}
 
-	public byte[] getData() {
-		return data;
-	}
 
-	public void setData(byte[] data) {
-		this.data = data;
-	}
 
-	public FileDB getImage() {
+	public String getImage() {
 		return image;
 	}
 
-	public void setImage(FileDB image) {
+	public void setImage(String image) {
 		this.image = image;
 	}
 
-	public Tool( String name, String description, String type, byte[] data, FileDB image) {
+	public Tool(String id, String name, String description, String type, String image) {
 		super();
-		
+		this.id = id;
 		this.name = name;
 		this.description = description;
 		this.type = type;
-		this.data = data;
 		this.image = image;
 	}
 

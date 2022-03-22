@@ -29,4 +29,9 @@ public class FaqServiceImpl implements FaqService{
 		return (List<Faq>) faqRepository.findAll();
 	}
 
+	@Override
+	public void deletefaq(String id) {
+		faqRepository.deleteById(id);		
+	}
+
 }
