@@ -38,9 +38,9 @@ public class UserEntity {
 	@OneToOne( optional = true, cascade = CascadeType.ALL)
     private FileDB image;
 	
-	@OneToMany( cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToMany( cascade = CascadeType.ALL)
 	  private Set<Tool> tool;
-	@OneToMany( cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToMany( cascade = CascadeType.ALL)
 	  private List<RequestFile> requestFile;
 
 	public Set<Tool> getTool() {

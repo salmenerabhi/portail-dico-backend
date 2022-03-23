@@ -19,7 +19,6 @@ public class Tool {
 	  private String id;
 	  private String name;
 	  private String description;
-	  private String type;
 	  private String image;
 
 	public String getId() {
@@ -46,14 +45,7 @@ public class Tool {
 		this.description = description;
 	}
 
-	public String getType() {
-		return type;
-	}
-
-	public void setType(String type) {
-		this.type = type;
-	}
-
+	
 
 
 	public String getImage() {
@@ -64,12 +56,11 @@ public class Tool {
 		this.image = image;
 	}
 
-	public Tool(String id, String name, String description, String type, String image) {
+	public Tool(String id, String name, String description, String image) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.description = description;
-		this.type = type;
 		this.image = image;
 	}
 

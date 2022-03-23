@@ -1,7 +1,9 @@
 package com.actia.projects.entities;
 
 import java.util.Date;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -9,6 +11,8 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Lob;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
@@ -26,6 +30,8 @@ public class RequestFile {
 	private String ecu;
 	private Date echeanceRC;
 	private Date echeanceRD;
+	
+	
 	
 	@Column(name ="fileType")
 	@Enumerated(EnumType.STRING)
@@ -64,21 +70,16 @@ public class RequestFile {
 		unstarted,in_progress,rejected,finished
 	}	
 	
-	@Column(name ="infos")
-	@Enumerated(EnumType.STRING)
-	private Infos infos;
-	public enum Infos{
-		manual_modification_on_demand,
-		spell_check,
-		number_per_star,
-		words_in_min_except_abbreviations,
-		surplus_of_spaces,
-		truncated_words,
-		existing_sentence,
-		period_at_the_end_of_the_line,
-		duplicates
-	}
+	@OneToMany (cascade=CascadeType.ALL)
+	private List<Checklist> checklist;
+
 	
+	public List<Checklist> getChecklist() {
+		return checklist;
+	}
+	public void setChecklist(List<Checklist> checklist) {
+		this.checklist = checklist;
+	}
 	public String getId() {
 		return id;
 	}
@@ -147,30 +148,8 @@ public class RequestFile {
 		this.state = state;
 	}
 
-	public Infos getInfos() {
-		return infos;
-	}
-	public void setInfos(Infos infos) {
-		this.infos = infos;
-	}
+
 	
-	
-	public RequestFile(String id, String name, String ecu, Date echeanceRC, Date echeanceRD, FileType fileType,
-			Marque marque, Cible cible, Fonctionnalite fonctionnalite, Langue langue, State state, Infos infos) {
-		super();
-		this.id = id;
-		this.name = name;
-		this.ecu = ecu;
-		this.echeanceRC = echeanceRC;
-		this.echeanceRD = echeanceRD;
-		this.fileType = fileType;
-		this.marque = marque;
-		this.cible = cible;
-		this.fonctionnalite = fonctionnalite;
-		this.langue = langue;
-		this.state = state;
-		this.infos = infos;
-	}
 	public RequestFile() {
 		super();
 		// TODO Auto-generated constructor stub

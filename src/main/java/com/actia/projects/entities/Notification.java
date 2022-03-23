@@ -31,10 +31,7 @@ public class Notification {
 	public enum Type{
 		Critical,Reminder,Informational
 	}
-	
-	 @ManyToOne(cascade = CascadeType.ALL)
 
-	    private UserEntity responsible;
 
 	public String getId() {
 		return id;
@@ -62,22 +59,15 @@ public class Notification {
 		this.type = type;
 	}
 
-	public UserEntity getResponsible() {
-		return responsible;
-	}
 
-	public void setResponsible(UserEntity responsible) {
-		this.responsible = responsible;
-	}
 
 	
 
-	public Notification(String id, Date delaimax, Type type, UserEntity responsible) {
+	public Notification(String id, Date delaimax, Type type) {
 		super();
 		this.id = id;
 		this.delaimax = delaimax;
 		this.type = type;
-		this.responsible = responsible;
 	}
 
 	public Notification() {

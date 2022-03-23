@@ -48,7 +48,7 @@ public class UserController {
     @PostMapping("/resetPassword")
     public void resetPassword(@RequestBody ResetPassword resetPassword) {
         String token = resetPassword.getToken();
-        if (Boolean.TRUE.equals(jwtUtil.isTokenExpired(token))) {
+        if (Boolean.FALSE.equals(jwtUtil.isTokenExpired(token))) {
             String email = jwtUtil.extractUsername(token);
             passwordServices.resetPassword(resetPassword, email);
         } else throw new RuntimeException("Token expired");

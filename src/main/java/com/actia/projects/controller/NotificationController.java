@@ -28,7 +28,7 @@ public class NotificationController {
 	UserRepository userRepository ;
 	
 	
-	
+	/*
 	@PostMapping("/addNotif")
 	@ResponseBody
 	public Notification ajouterNotif(@RequestBody Notification notification){
@@ -43,4 +43,5 @@ public class NotificationController {
 	public List<Notification> getListNotifs(){
 		return notificationService.getAllNotifs();
 	}
+	*/
 }
