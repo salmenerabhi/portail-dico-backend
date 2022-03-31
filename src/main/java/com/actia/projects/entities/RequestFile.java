@@ -1,5 +1,6 @@
 package com.actia.projects.entities;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -11,26 +12,29 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 
 @Entity
 
-public class RequestFile {
-
+public class RequestFile  implements Serializable {
 	@Id
 	@GeneratedValue(generator = "uuid")
 	@GenericGenerator(name = "uuid", strategy = "uuid2")
 	private String id;
 	private String name;
 	private String ecu;
-	private Date echeanceRC;
-	private Date echeanceRD;
-	
+	public Date echeanceRC;
+	public Date echeanceRD;
+	private String commentaire;
+
 	
 	
 	@Column(name ="fileType")
@@ -70,10 +74,19 @@ public class RequestFile {
 		unstarted,in_progress,rejected,finished
 	}	
 	
-	@OneToMany (cascade=CascadeType.ALL)
+	@ManyToOne(cascade=CascadeType.MERGE)  
+	 private UserEntity user;
+
+	@OneToMany (cascade=CascadeType.ALL) 
 	private List<Checklist> checklist;
 
 	
+	public UserEntity getUser() {
+		return user;
+	}
+	public void setUser(UserEntity user) {
+		this.user = user;
+	}
 	public List<Checklist> getChecklist() {
 		return checklist;
 	}
@@ -150,6 +163,12 @@ public class RequestFile {
 
 
 	
+	public String getCommentaire() {
+		return commentaire;
+	}
+	public void setCommentaire(String commentaire) {
+		this.commentaire = commentaire;
+	}
 	public RequestFile() {
 		super();
 		// TODO Auto-generated constructor stub

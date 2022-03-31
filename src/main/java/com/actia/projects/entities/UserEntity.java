@@ -35,31 +35,29 @@ public class UserEntity {
 	@Column(name = "site")
 	@Enumerated(EnumType.STRING)
 	private Site site;
+	
+	
 	@OneToOne( optional = true, cascade = CascadeType.ALL)
     private FileDB image;
-	
+	/*
 	@OneToMany( cascade = CascadeType.ALL)
-	  private Set<Tool> tool;
-	@OneToMany( cascade = CascadeType.ALL)
-	  private List<RequestFile> requestFile;
+	  private List<Tool> tool;
+	  */
 
-	public Set<Tool> getTool() {
+	@OneToMany( cascade = CascadeType.ALL)
+	  private List<Faq> faq;
+
+	/*
+	public List<Tool> getTool() {
 		return tool;
 	}
 
-	public void setTool(Set<Tool> tool) {
+	public void setTool(List<Tool> tool) {
 		this.tool = tool;
-	}
+	}*/
 
 	
-	public List<RequestFile> getRequestFile() {
-		return requestFile;
-	}
 
-	public void setRequestFile(List<RequestFile> requestFile) {
-		 this.requestFile = requestFile;
-	}
-	
 	
 
 	public UserEntity() {
@@ -75,8 +73,9 @@ public class UserEntity {
 
 
 
+
 	public UserEntity(String id, String firstName, String lastName, String password, String email, Date creationDate,
-			Role role, Site site, FileDB image, Set<Tool> tool) {
+			Role role, Site site, FileDB image, List<Faq> faq) {
 		super();
 		this.id = id;
 		this.firstName = firstName;
@@ -87,7 +86,7 @@ public class UserEntity {
 		this.role = role;
 		this.site = site;
 		this.image = image;
-		this.tool = tool;
+		this.faq = faq;
 	}
 
 	public String getId() {

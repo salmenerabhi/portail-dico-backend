@@ -18,17 +18,23 @@ public class Faq {
 	@GeneratedValue(generator= "system-uuid")
 	@GenericGenerator(name="system-uuid", strategy = "uuid")
 	private String id;
-
+	private String title;
     private String question;
     private String answer;
     
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne(cascade = CascadeType.ALL)
     private UserEntity user;
 	public UserEntity getUser() {
 		return user;
 	}
 	public void setUser(UserEntity user) {
 		this.user = user;
+	}
+	public String getTitle() {
+		return title;
+	}
+	public void setTitle(String title) {
+		this.title = title;
 	}
 	public String getId() {
 		return id;
@@ -48,11 +54,14 @@ public class Faq {
 	public void setAnswer(String answer) {
 		this.answer = answer;
 	}
-	public Faq(String id, String question, String answer) {
+	
+	public Faq(String id, String title, String question, String answer, UserEntity user) {
 		super();
 		this.id = id;
+		this.title = title;
 		this.question = question;
 		this.answer = answer;
+		this.user = user;
 	}
 	public Faq() {
 		super();
