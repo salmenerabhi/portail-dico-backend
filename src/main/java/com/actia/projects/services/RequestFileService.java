@@ -47,16 +47,7 @@ public RequestFile updateRequestFile(RequestFile requestFile){
 
 	return requestFileRepository.save(requestFile);
 }
-//public Checklist getChecklist (String id){
-//
-//        RequestFile rf = requestFileRepository.findById(id).get();
-//
-//        List<QuestionEntity> educations = currentCondidat.getQuestion();
-//        Type listType = new TypeToken<List<QuestionEntity>>() {}.getType();
-//        List<QuestionDto> educationsDto = new ModelMapper().map(educations, listType);
-//
-//        return educationsDto;
-//    }
+
 
 
 

@@ -9,6 +9,7 @@ import java.util.stream.Stream;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.actia.projects.entities.Faq;
 import com.actia.projects.entities.Tool;
 import com.actia.projects.exceptions.StorageException;
 import com.actia.projects.repository.ToolRepository;
@@ -26,6 +27,9 @@ public Tool createTool(Tool tool){
 }
 public Tool getTool (String id){
 	return toolRepository.getById(id);
+}
+public List<Tool> getAllTools() {
+	return (List<Tool>) toolRepository.findAll();
 }
 
 

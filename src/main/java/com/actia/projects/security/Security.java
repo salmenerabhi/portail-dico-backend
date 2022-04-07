@@ -29,6 +29,7 @@ public class Security extends WebSecurityConfigurerAdapter  {
 	        web.ignoring().antMatchers("/user/resetPassword",
 	        		"/user/add",
 	        		"/user/register",
+	        		"/requestfile/download/*",
 	                                               "/user/sendEmail");
 	    }
 	
@@ -67,4 +68,6 @@ public class Security extends WebSecurityConfigurerAdapter  {
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder);
 	}
+	
+	
 }

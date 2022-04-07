@@ -1,15 +1,24 @@
 package com.actia.projects.controller;
 
+import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletResponse;
 import javax.transaction.Transactional;
 
 import java.lang.reflect.Type;
@@ -40,6 +49,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.actia.projects.dto.RequestFileDto;
 import com.actia.projects.dto.UserDto;
 import com.actia.projects.entities.Checklist;
+import com.actia.projects.entities.FileDB;
 import com.actia.projects.entities.RequestFile;
 import com.actia.projects.entities.RequestFile.State;
 import com.actia.projects.entities.Tool;
@@ -104,6 +114,59 @@ public class RequestFileController {
 
 	    }
 	  
+	  
+	  @GetMapping(path="/download/{id}")
+	    public void download(@PathVariable String id, HttpServletResponse response) throws Exception {
+	       String folderPath = "C:/Users/rabhi/OneDrive/Documents/projects/projet pfe/portail-dico/back/portail-dico/src/doc/files/";
+	        Path path = Paths.get("C:/Users/rabhi/OneDrive/Documents/projects/projet pfe/portail-dico/back/portail-dico/src/doc/files/" + id);
+	        if (id.indexOf(".doc") > -1) response.setContentType("application/msword");
+	        if (id.indexOf(".docx") > -1) response.setContentType("application/msword");
+	        if (id.indexOf(".xls") > -1) response.setContentType("application/vnd.ms-excel");
+	        if (id.indexOf(".csv") > -1) response.setContentType("application/vnd.ms-excel");
+	        if (id.indexOf(".ppt") > -1) response.setContentType("application/ppt");
+	        if (id.indexOf(".pdf") > -1) response.setContentType("application/pdf");
+	        response.setHeader("Content-Disposition", "attachment; filename=" +id);
+	        response.setHeader("Content-Transfer-Encoding", "binary");
+	        try {
+	            BufferedOutputStream bos = new BufferedOutputStream(response.getOutputStream());
+	            FileInputStream fis = new FileInputStream(folderPath+id);
+	            int len;
+	            byte[] buf = new byte[1024];
+	            while((len = fis.read(buf)) > 0) {
+	                bos.write(buf,0,len);
+	            }
+	            bos.close();
+	            response.flushBuffer();
+	        }
+	        catch(IOException e) {
+	            e.printStackTrace();
+
+	        }
+	    }
+	  
+	  @GetMapping(path="/launch")
+	  public static void launch(String command) {
+	        try {
+	            Runtime runtime = Runtime.getRuntime();
+	            Process process = runtime.exec("C://Users//rabhi//OneDrive//Documents//projects//projet pfe//portail-dico//front//potail-dico//src//assets//scripts//tosalmen//MajSuperDico//launch_maj_superdico.bat");
+	            BufferedReader input = new BufferedReader(new InputStreamReader(process.getInputStream()));
+	            String line = null;
+	            while ((line = input.readLine()) != null) {
+	                System.out.println(line);
+	            }
+	            //Attendre la fin de l'execution
+	            if (process.waitFor() != 0) {
+	                System.out.println("Une erreur est survenue ");
+	            }
+	        } catch (InterruptedException ex) {
+                System.out.println("Une erreur est survenue1 ");
+	        } catch (IOException ex) {
+                System.out.println("Une erreur est survenue2 ");
+	        }
+	    }
+
+	  
+	  
 	  @GetMapping(path="/{id}")
 	    public RequestFile getFilebyId(@PathVariable String id){
 		  return requestFileService.getRequestFile(id);
@@ -136,6 +199,18 @@ public class RequestFileController {
 	  @PutMapping
 	    public RequestFile updateRequestFile(@RequestBody RequestFile requestFile) {
 	        return requestFileService.updateRequestFile(requestFile);
+	    }
+	  
+	  @PutMapping(path="update")
+	    public RequestFile updateUser(@RequestPart(value = "requestfile") String requestfileString,
+	                              @RequestPart(value = "file", required = false) MultipartFile file) throws IOException {
+			RequestFile requestfile = new ObjectMapper().readValue(requestfileString, RequestFile.class);
+			String filename = file.getOriginalFilename();
+            String newFileName = FilenameUtils.getBaseName(filename)+"."+FilenameUtils.getExtension(filename);
+            File serverFile = new File (context.getRealPath("src/doc/files/"+File.separator+newFileName));
+            String distfile = "src/doc/files/"+ file.getOriginalFilename();
+            requestfile.setName(file.getOriginalFilename());
+	        return requestFileService.updateRequestFile(requestfile);
 	    }
 
 	  @RequestMapping("/api")

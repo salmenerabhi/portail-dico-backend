@@ -39,24 +39,10 @@ public class UserEntity {
 	
 	@OneToOne( optional = true, cascade = CascadeType.ALL)
     private FileDB image;
-	/*
-	@OneToMany( cascade = CascadeType.ALL)
-	  private List<Tool> tool;
-	  */
 
 	@OneToMany( cascade = CascadeType.ALL)
 	  private List<Faq> faq;
 
-	/*
-	public List<Tool> getTool() {
-		return tool;
-	}
-
-	public void setTool(List<Tool> tool) {
-		this.tool = tool;
-	}*/
-
-	
 
 	
 

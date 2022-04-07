@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 
+import com.actia.projects.entities.Faq;
 import com.actia.projects.entities.Tool;
 import com.actia.projects.services.ToolService;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -49,7 +50,9 @@ public class ToolController {
 	  @Autowired
 	    ServletContext context;
 	@PostMapping
-	public Tool createTool(@RequestPart("file") MultipartFile file,@RequestPart("image") MultipartFile image, @RequestPart(value = "tool") String toolString) throws JsonMappingException, JsonProcessingException{
+	public Tool createTool(@RequestPart("file") MultipartFile file,
+							@RequestPart(value = "image", required = false) MultipartFile image,
+							@RequestPart(value = "tool") String toolString) throws JsonMappingException, JsonProcessingException{
 		Tool tool = new ObjectMapper().readValue(toolString, Tool.class);
 		boolean isExit = new File(context.getRealPath("src/doc/")).exists();
         if (!isExit)
@@ -99,10 +102,15 @@ public class ToolController {
         return toolService.createTool(tool);
 } 
 	  @GetMapping(path="/doc/{id}")
-	    public byte[] getPhoto(@PathVariable String id) throws Exception{
+	    public byte[] gettool(@PathVariable String id) throws Exception{
 	        Tool tool = toolService.getTool(id);
 	        return Files.readAllBytes(Paths.get("C:/Users/rabhi/OneDrive/Documents/projects/projet pfe/portail-dico/back/portail-dico/src/doc/"+tool.getName()));
 
 	    }
+	  @GetMapping()
+		@ResponseBody
+		public List<Tool> getListTools(){
+			return toolService.getAllTools();
+		}
 	  
 	  }
