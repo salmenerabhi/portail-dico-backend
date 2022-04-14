@@ -30,7 +30,8 @@ public class Security extends WebSecurityConfigurerAdapter  {
 	        		"/user/add",
 	        		"/user/register",
 	        		"/requestfile/download/*",
-	                                               "/user/sendEmail");
+	        		"/user/tl",
+	                "/user/sendEmail");
 	    }
 	
 

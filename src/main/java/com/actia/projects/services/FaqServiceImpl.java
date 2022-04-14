@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.actia.projects.entities.Faq;
+import com.actia.projects.entities.RequestFile;
 import com.actia.projects.repository.FaqRepository;
 
 
@@ -32,6 +33,12 @@ public class FaqServiceImpl implements FaqService{
 	@Override
 	public void deletefaq(String id) {
 		faqRepository.deleteById(id);		
+	}
+	
+	@Override
+	public Faq updateFaq(Faq faq){
+
+		return faqRepository.save(faq);
 	}
 
 }

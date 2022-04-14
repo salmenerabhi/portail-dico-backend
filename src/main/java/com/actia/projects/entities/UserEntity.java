@@ -36,6 +36,7 @@ public class UserEntity {
 	@Enumerated(EnumType.STRING)
 	private Site site;
 	
+	private String responsable;
 	
 	@OneToOne( optional = true, cascade = CascadeType.ALL)
     private FileDB image;
@@ -85,6 +86,22 @@ public class UserEntity {
 
 	public String getFirstName() {
 		return firstName;
+	}
+
+	public String getResponsable() {
+		return responsable;
+	}
+
+	public void setResponsable(String responsable) {
+		this.responsable = responsable;
+	}
+
+	public List<Faq> getFaq() {
+		return faq;
+	}
+
+	public void setFaq(List<Faq> faq) {
+		this.faq = faq;
 	}
 
 	public void setFirstName(String firstName) {

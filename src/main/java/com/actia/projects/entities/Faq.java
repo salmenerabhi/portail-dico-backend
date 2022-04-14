@@ -1,6 +1,7 @@
 package com.actia.projects.entities;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -18,11 +19,14 @@ public class Faq {
 	@GeneratedValue(generator= "system-uuid")
 	@GenericGenerator(name="system-uuid", strategy = "uuid")
 	private String id;
+	
+	@Column(name = "title", length = 1024)
+
 	private String title;
     private String question;
     private String answer;
     
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     private UserEntity user;
 	public UserEntity getUser() {
 		return user;

@@ -12,7 +12,8 @@ public class UserDto {
 	private String id;
     private String firstName;
     private String lastName;
-    
+	private String responsable;
+ 
     private String password;
     private String email;
     private Date creationDate;
@@ -22,6 +23,12 @@ public class UserDto {
 
     
     
+	public String getResponsable() {
+		return responsable;
+	}
+	public void setResponsable(String responsable) {
+		this.responsable = responsable;
+	}
 	public String getId() {
 		return id;
 	}

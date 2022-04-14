@@ -22,6 +22,8 @@ import org.springframework.web.multipart.MultipartFile;
 import com.actia.projects.dto.ResetPassword;
 import com.actia.projects.dto.UserDto;
 import com.actia.projects.entities.FileDB;
+import com.actia.projects.entities.RequestFile;
+import com.actia.projects.entities.UserEntity;
 import com.actia.projects.repository.FileDBRepository;
 import com.actia.projects.services.FileStorageService;
 import com.actia.projects.services.JwtUtil;
@@ -98,13 +100,13 @@ public class UserController {
     public UserDto getUserById(@PathVariable(name = "id") String id) {
         return userService.getUserById(id);
     }
- 
-    
-  
- 
 
 
+    @GetMapping(path="tl")
+    public List<UserEntity> getAllTL(){
+	  return userService.getTL();
 
+    }
     @DeleteMapping("/{id}")
     public void deleteUser(@PathVariable(name = "id") String id) {
         userService.deleteUser(id);

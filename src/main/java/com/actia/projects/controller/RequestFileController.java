@@ -125,6 +125,7 @@ public class RequestFileController {
 	        if (id.indexOf(".csv") > -1) response.setContentType("application/vnd.ms-excel");
 	        if (id.indexOf(".ppt") > -1) response.setContentType("application/ppt");
 	        if (id.indexOf(".pdf") > -1) response.setContentType("application/pdf");
+	        if (id.indexOf(".exe") > -1) response.setContentType("application/octet-stream");
 	        response.setHeader("Content-Disposition", "attachment; filename=" +id);
 	        response.setHeader("Content-Transfer-Encoding", "binary");
 	        try {

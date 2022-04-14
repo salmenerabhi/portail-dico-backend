@@ -8,12 +8,14 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.actia.projects.entities.Faq;
+import com.actia.projects.entities.RequestFile;
 import com.actia.projects.entities.UserEntity;
 import com.actia.projects.repository.UserRepository;
 import com.actia.projects.services.FaqService;
@@ -50,5 +52,9 @@ public class FaqController {
 	        faqService.deletefaq(id);
 	    }
 
-
+	 @PutMapping
+		@ResponseBody 
+	    public Faq updateRequestFile(@RequestBody Faq faq) {
+	        return faqService.updateFaq(faq);
+	    }
 }

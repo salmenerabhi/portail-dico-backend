@@ -16,7 +16,7 @@ public interface UserService extends UserDetailsService {
 	 void deleteUser(String id);
 	 UserDto getUserByEmail(String email);
 	void updatePassword(UserEntity  user, String newPassword);
-	
+	public List<UserEntity> getTL();
 	
 
 }

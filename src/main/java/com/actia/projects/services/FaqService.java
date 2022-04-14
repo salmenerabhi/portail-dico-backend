@@ -10,5 +10,5 @@ public interface FaqService {
 	    Faq addFaq(Faq faq);
 		public List<Faq> getAllFaq();
 		 void deletefaq(String id); 
-
+		 public Faq updateFaq(Faq faq);
 }
