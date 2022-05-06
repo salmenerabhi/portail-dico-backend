@@ -27,7 +27,8 @@ import com.actia.projects.entities.UserEntity;
 import com.actia.projects.repository.FileDBRepository;
 import com.actia.projects.services.FileStorageService;
 import com.actia.projects.services.JwtUtil;
-import com.actia.projects.services.PasswordServices;
+import com.actia.projects.services.PasswordService;
+import com.actia.projects.services.PasswordServiceImpl;
 import com.actia.projects.services.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -40,7 +41,7 @@ public class UserController {
     @Autowired
     FileDBRepository fileDBRepository;
     @Autowired
-    PasswordServices passwordServices;
+    PasswordService passwordServices;
     @Autowired
     FileStorageService fileStorageService;
     @Autowired
@@ -83,6 +84,7 @@ public class UserController {
 
     @PostMapping("/add")
     public UserDto addUserWithoutImage(@RequestBody UserDto userDto) {
+//    	userDto.setImage(fileDBRepository.findById("3e7ddcb4-6ef1-4986-a3d3-a5929b1c6a24").get());
         return userService.addUser(userDto);
     }
 

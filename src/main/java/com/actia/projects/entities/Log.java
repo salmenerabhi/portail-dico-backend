@@ -2,16 +2,17 @@ package com.actia.projects.entities;
 
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
 
-import com.actia.projects.entities.RequestFile.Cible;
 import com.actia.projects.entities.RequestFile.Fonctionnalite;
 
 @Entity
@@ -22,7 +23,7 @@ public class Log {
 	@GeneratedValue(generator= "system-uuid")
 	@GenericGenerator(name="system-uuid", strategy = "uuid")
 	private String id;
-	private int numero;
+	private String numero;
 	private String infos;
 	private String description;
 	private String filename;
@@ -32,21 +33,22 @@ public class Log {
 	@Enumerated(EnumType.STRING)
 	private LogType type;
 	public enum LogType{
-		Error, TBBT
+		Error, TBBT, Ref
 		}
 
 	private Fonctionnalite fonctionnalite;
-	private Cible cible;
+	
+	
 	public String getId() {
 		return id;
 	}
 	public void setId(String id) {
 		this.id = id;
 	}
-	public int getNumero() {
+	public String getNumero() {
 		return numero;
 	}
-	public void setNumero(int numero) {
+	public void setNumero(String numero) {
 		this.numero = numero;
 	}
 	public String getInfos() {
@@ -91,29 +93,14 @@ public class Log {
 	public void setFonctionnalite(Fonctionnalite fonctionnalite) {
 		this.fonctionnalite = fonctionnalite;
 	}
-	public Cible getCible() {
-		return cible;
-	}
-	public void setCible(Cible cible) {
-		this.cible = cible;
-	}
+	
+
 	public Log() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public Log(String id, int numero, String infos, String description, String filename, String phrase, Date date,
-			LogType type, Fonctionnalite fonctionnalite, Cible cible) {
-		super();
-		this.id = id;
-		this.numero = numero;
-		this.infos = infos;
-		this.description = description;
-		this.filename = filename;
-		this.phrase = phrase;
-		this.date = date;
-		this.type = type;
-		this.fonctionnalite = fonctionnalite;
-		this.cible = cible;
+	public Log(String numero2, String description2, int infos2) {
+		// TODO Auto-generated constructor stub
 	}
 	
 	

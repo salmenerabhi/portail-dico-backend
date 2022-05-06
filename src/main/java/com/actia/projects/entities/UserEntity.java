@@ -28,7 +28,6 @@ public class UserEntity {
 	private String email;
 	@Column(nullable = true)
 	private Date creationDate;
-
 	@Column(name = "role")
 	@Enumerated(EnumType.STRING)
 	private Role role;
@@ -41,11 +40,6 @@ public class UserEntity {
 	@OneToOne( optional = true, cascade = CascadeType.ALL)
     private FileDB image;
 
-	@OneToMany( cascade = CascadeType.ALL)
-	  private List<Faq> faq;
-
-
-	
 
 	public UserEntity() {
 		super();
@@ -73,7 +67,7 @@ public class UserEntity {
 		this.role = role;
 		this.site = site;
 		this.image = image;
-		this.faq = faq;
+//		this.faq = faq;
 	}
 
 	public String getId() {
@@ -96,13 +90,6 @@ public class UserEntity {
 		this.responsable = responsable;
 	}
 
-	public List<Faq> getFaq() {
-		return faq;
-	}
-
-	public void setFaq(List<Faq> faq) {
-		this.faq = faq;
-	}
 
 	public void setFirstName(String firstName) {
 		this.firstName = firstName;

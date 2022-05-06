@@ -4,36 +4,37 @@ import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-import java.security.Principal;
-import java.time.LocalDateTime;
+
 import java.util.Date;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletResponse;
 import javax.transaction.Transactional;
-
-import java.lang.reflect.Type;
-
-import org.modelmapper.ModelMapper;
-import org.modelmapper.TypeToken;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.format.annotation.DateTimeFormat.ISO;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -45,21 +46,25 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+import org.w3c.dom.Document;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
-import com.actia.projects.dto.RequestFileDto;
-import com.actia.projects.dto.UserDto;
-import com.actia.projects.entities.Checklist;
-import com.actia.projects.entities.FileDB;
+import com.actia.projects.dto.StatRequestFiles;
+import com.actia.projects.entities.Brand;
+import com.actia.projects.entities.Log;
 import com.actia.projects.entities.RequestFile;
-import com.actia.projects.entities.RequestFile.State;
-import com.actia.projects.entities.Tool;
+import com.actia.projects.entities.Target;
 import com.actia.projects.repository.RequestFileRepository;
 import com.actia.projects.services.RequestFileService;
+import com.actia.projects.services.RequestFileServiceImpl;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
+
+
 
 @CrossOrigin(origins = "http://localhost:4200")
 
@@ -125,6 +130,7 @@ public class RequestFileController {
 	        if (id.indexOf(".csv") > -1) response.setContentType("application/vnd.ms-excel");
 	        if (id.indexOf(".ppt") > -1) response.setContentType("application/ppt");
 	        if (id.indexOf(".pdf") > -1) response.setContentType("application/pdf");
+	        if (id.indexOf(".xml") > -1) response.setContentType("application/xml");
 	        if (id.indexOf(".exe") > -1) response.setContentType("application/octet-stream");
 	        response.setHeader("Content-Disposition", "attachment; filename=" +id);
 	        response.setHeader("Content-Transfer-Encoding", "binary");
@@ -166,7 +172,7 @@ public class RequestFileController {
 	        }
 	    }
 
-	  
+
 	  
 	  @GetMapping(path="/{id}")
 	    public RequestFile getFilebyId(@PathVariable String id){
@@ -243,5 +249,88 @@ public class RequestFileController {
 	        return e;
 	    }
 
+	  @GetMapping("/brand")
+		 @ResponseBody
+		 public List<Brand> getBrands() {
+		 List<Brand> list = requestFileService.retrieveAllBrands();
+		 return list;
+		}
+	  @GetMapping("/target")
+		 @ResponseBody
+		 public List<Target> getTargets() {
+		 List<Target> list = requestFileService.retrieveAllTargets();
+		 return list;
+		}
 	  
+	  @PostMapping("/addbrand")
+	  @ResponseBody
+	  public Brand addBrand(@RequestBody Brand brand) {
+		  Brand app = requestFileService.createBrand(brand);
+	 return app;
 	  }
+	  
+	  @PostMapping("/addtarget")
+	  @ResponseBody
+	  public Target addAppointment(@RequestBody Target target ) {
+		  Target app = requestFileService.createTarget(target);
+	 return app;
+	  }
+	  
+	  @DeleteMapping("/brand/{id}")
+	    public void deleteBrand(@PathVariable(name = "id") String id) {
+		  requestFileService.deleteBrand(id);
+	    }
+	  @DeleteMapping("/target/{id}")
+	    public void deleteTarget(@PathVariable(name = "id") String id) {
+		  requestFileService.deleteTarget(id);
+	    }
+	  
+	  
+	  @GetMapping("/filebyuser/{id}")
+		@ResponseBody
+		public List<RequestFile> getAllFilesByUser(@PathVariable(name = "id") String id) {
+			
+				List<RequestFile> list = requestFileService.getAllRequestsByUser(id);
+				return list;
+				}
+	  
+	  @GetMapping("/filebytl/{id}")
+		@ResponseBody
+		public List<RequestFile> getAllFilesByTl(@PathVariable(name = "id") String id) {
+			
+				List<RequestFile> list = requestFileService.getAllUsersByTL(id);
+				return list;
+				}
+
+	    @GetMapping("/stat")
+	    public StatRequestFiles getStatistic() {
+	        return requestFileService.getStat();
+	    }
+	    
+	    @GetMapping("/count/{id}")
+	    public RequestFile count(@PathVariable String id) throws IOException, Exception 
+	    {
+	    	RequestFile requestfile = requestFileService.getRequestFile(id);
+		     File file = new File ("C:/Users/rabhi/OneDrive/Documents/projects/projet pfe/portail-dico/back/portail-dico/src/doc/files/"+requestfile.getName()); 
+
+	    	 DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+
+	         try (InputStream is = new FileInputStream(file)) {
+
+	             DocumentBuilder db = dbf.newDocumentBuilder();
+
+	             Document doc = db.parse(is);
+
+	             NodeList list = doc.getElementsByTagName("Request");
+	             requestfile.setNombrephrase(list.getLength());
+	             requestFileRepository.save(requestfile);
+//	             return list.getLength();
+	         } catch (ParserConfigurationException | SAXException | IOException e) {
+	             e.printStackTrace();
+	         }
+			return requestfile;
+			
+
+	     }
+	  }
+

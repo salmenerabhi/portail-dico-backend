@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.actia.projects.entities.Faq;
-import com.actia.projects.entities.RequestFile;
 import com.actia.projects.entities.UserEntity;
 import com.actia.projects.repository.UserRepository;
 import com.actia.projects.services.FaqService;

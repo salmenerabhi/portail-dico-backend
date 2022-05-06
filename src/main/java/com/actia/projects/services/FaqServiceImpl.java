@@ -16,28 +16,28 @@ public class FaqServiceImpl implements FaqService{
 	@Autowired
 	FaqRepository faqRepository;	
 	
-	
-	
+	 //Create a FAQ
 	@Override
 	public Faq addFaq(Faq faq) {
 		Faq faqs= faqRepository.save(faq);
-		return faqs;
-		
+		return faqs;	
 	}
 
+	//Get a list of all an FAQs 
 	@Override
 	public List<Faq> getAllFaq() {
 		return (List<Faq>) faqRepository.findAll();
 	}
 
+	//Delete a FAQ 
 	@Override
 	public void deletefaq(String id) {
 		faqRepository.deleteById(id);		
 	}
 	
+	//Update a FAQ
 	@Override
 	public Faq updateFaq(Faq faq){
-
 		return faqRepository.save(faq);
 	}
 

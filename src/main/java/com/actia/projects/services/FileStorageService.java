@@ -16,14 +16,13 @@ import org.springframework.util.StringUtils;
 
 @Service
 public class FileStorageService {
-  @Autowired
- FileDBRepository fileDBRepository;
+	@Autowired
+	FileDBRepository fileDBRepository;
 
+  //store a file (image)
     public FileDB store(MultipartFile file) throws IOException {
         String fileName = StringUtils.cleanPath(Objects.requireNonNull(file.getOriginalFilename()));
         FileDB fileDb = new FileDB(fileName, file.getContentType(), file.getBytes());
         return fileDBRepository.save(fileDb);
     }
-
-
 }

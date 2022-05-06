@@ -34,7 +34,7 @@ public class RequestFile  implements Serializable {
 	public Date echeanceRC;
 	public Date echeanceRD;
 	private String commentaire;
-
+	private long nombrephrase;
 	
 	
 	@Column(name ="fileType")
@@ -43,18 +43,7 @@ public class RequestFile  implements Serializable {
 	public enum FileType{
 		Approximation, Demande
 	}
-	@Column(name ="marque")
-	@Enumerated(EnumType.STRING)
-	private Marque marque;
-	public enum Marque{
-		Renault,Peugeot,Citroen,BMW,Volkswagen,Hyundai,Mazda,Toyota,Suzuki,Audi
-	}
-	@Column(name ="cible")
-	@Enumerated(EnumType.STRING)
-	private Cible cible;
-	public enum Cible{
-		II_2019_pack
-	}
+	
 	@Column(name ="fonctionnalite")
 	@Enumerated(EnumType.STRING)
 	private Fonctionnalite fonctionnalite;
@@ -71,15 +60,20 @@ public class RequestFile  implements Serializable {
 	@Enumerated(EnumType.STRING)
 	private State state;
 	public enum State{
-		unstarted,in_progress,rejected,finished
+		unstarted,in_progress,rejected,finished,to_verify,verified
 	}	
 	
-	@ManyToOne(cascade=CascadeType.MERGE)  
+	@ManyToOne
 	 private UserEntity user;
 
 	@OneToMany (cascade=CascadeType.ALL) 
 	private List<Checklist> checklist;
 
+	@ManyToOne()  
+	 private Brand marque;
+	
+	@ManyToOne()  
+	private Target cible;
 	
 	public UserEntity getUser() {
 		return user;
@@ -130,20 +124,29 @@ public class RequestFile  implements Serializable {
 	public void setFileType(FileType fileType) {
 		this.fileType = fileType;
 	}
-	public Marque getMarque() {
-		return marque;
+
+	
+	
+	public long getNombrephrase() {
+		return nombrephrase;
 	}
-	public void setMarque(Marque marque) {
-		this.marque = marque;
-	}
-	public Cible getCible() {
-		return cible;
-	}
-	public void setCible(Cible cible) {
-		this.cible = cible;
+	public void setNombrephrase(long nombrephrase) {
+		this.nombrephrase = nombrephrase;
 	}
 	public Fonctionnalite getFonctionnalite() {
 		return fonctionnalite;
+	}
+	public Brand getMarque() {
+		return marque;
+	}
+	public void setMarque(Brand marque) {
+		this.marque = marque;
+	}
+	public Target getCible() {
+		return cible;
+	}
+	public void setCible(Target cible) {
+		this.cible = cible;
 	}
 	public void setFonctionnalite(Fonctionnalite fonctionnalite) {
 		this.fonctionnalite = fonctionnalite;
