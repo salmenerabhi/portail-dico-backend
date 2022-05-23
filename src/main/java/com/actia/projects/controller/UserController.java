@@ -18,17 +18,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-
 import com.actia.projects.dto.ResetPassword;
 import com.actia.projects.dto.UserDto;
 import com.actia.projects.entities.FileDB;
-import com.actia.projects.entities.RequestFile;
 import com.actia.projects.entities.UserEntity;
-import com.actia.projects.repository.FileDBRepository;
 import com.actia.projects.services.FileStorageService;
 import com.actia.projects.services.JwtUtil;
 import com.actia.projects.services.PasswordService;
-import com.actia.projects.services.PasswordServiceImpl;
 import com.actia.projects.services.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -36,83 +32,97 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @RestController
 @RequestMapping("/user")
 public class UserController {
-    @Autowired
-    UserService userService;
-    @Autowired
-    FileDBRepository fileDBRepository;
-    @Autowired
-    PasswordService passwordServices;
-    @Autowired
-    FileStorageService fileStorageService;
-    @Autowired
-    JwtUtil jwtUtil;
-    
-    
-    @PostMapping("/resetPassword")
-    public void resetPassword(@RequestBody ResetPassword resetPassword) {
-        String token = resetPassword.getToken();
-        if (Boolean.FALSE.equals(jwtUtil.isTokenExpired(token))) {
-            String email = jwtUtil.extractUsername(token);
-            passwordServices.resetPassword(resetPassword, email);
-        } else throw new RuntimeException("Token expired");
+	@Autowired
+	UserService userService;
+	@Autowired
+	PasswordService passwordServices;
+	@Autowired
+	FileStorageService fileStorageService;
+	@Autowired
+	JwtUtil jwtUtil;
 
-    }
+	//Reset password if the token has not expired
+	//POST: http://localhost:8085/user/resetPassword
+	@PostMapping("/resetPassword")
+	public void resetPassword(@RequestBody ResetPassword resetPassword) {
+		String token = resetPassword.getToken();
+		if (Boolean.FALSE.equals(jwtUtil.isTokenExpired(token))) {
+			String email = jwtUtil.extractUsername(token);
+			passwordServices.resetPassword(resetPassword, email);
+		} else
+			throw new RuntimeException("Token expired");
+	}
 
-    @PostMapping("/sendEmail")
-    public ResponseEntity<String> sendHtmlEmail(@RequestBody String email) throws MessagingException {
-        passwordServices.sendEmail(email);
-        return ResponseEntity.ok("email send");
-    }
+	//Send recovery password mail
+	//POST: http://localhost:8085/user/sendEmail
+	@PostMapping("/sendEmail")
+	public ResponseEntity<String> sendHtmlEmail(@RequestBody String email) throws MessagingException {
+		passwordServices.sendEmail(email);
+		return ResponseEntity.ok("email sent");
+	}
 
-    @PostMapping("/register")
-    public UserDto addUser(@RequestPart(value = "userDto") String userDto,
-                           @RequestPart(value = "image", required = false) MultipartFile file) throws IOException {
-        UserDto user = new ObjectMapper().readValue(userDto, UserDto.class);
-        FileDB image = fileStorageService.store(file);
-        user.setImage(image);
-        return userService.addUser(user);
-    }
+	 //Create a new user with image
+	//POST: http://localhost:8085/user/register
+	@PostMapping("/register")
+	public UserDto addUser(@RequestPart(value = "userDto") String userDto,
+			@RequestPart(value = "image", required = false) MultipartFile file) throws IOException {
+		UserDto user = new ObjectMapper().readValue(userDto, UserDto.class);
+		FileDB image = fileStorageService.store(file);
+		user.setImage(image);
+		return userService.addUser(user);
+	}
 
-    @PutMapping
-    public UserDto updateUser(@RequestPart(value = "userDto") String userDto,
-                              @RequestPart(value = "image", required = false) MultipartFile file) throws IOException {
-        UserDto user = new ObjectMapper().readValue(userDto, UserDto.class);
-        FileDB image = fileStorageService.store(file);
-        user.setImage(image);
-        return userService.updateUser(user);
-    }
+	//Update a user with image
+	//PUT: http://localhost:8085/user
+	@PutMapping
+	public UserDto updateUser(@RequestPart(value = "userDto") String userDto,
+			@RequestPart(value = "image", required = false) MultipartFile file) throws IOException {
+		UserDto user = new ObjectMapper().readValue(userDto, UserDto.class);
+		FileDB image = fileStorageService.store(file);
+		user.setImage(image);
+		return userService.updateUser(user);
+	}
 
-    @PostMapping("/add")
-    public UserDto addUserWithoutImage(@RequestBody UserDto userDto) {
-//    	userDto.setImage(fileDBRepository.findById("3e7ddcb4-6ef1-4986-a3d3-a5929b1c6a24").get());
-        return userService.addUser(userDto);
-    }
+	 //Create a new user without image
+	//POST: http://localhost:8085/user/add
+	@PostMapping("/add")
+	public UserDto addUserWithoutImage(@RequestBody UserDto userDto) {
+		return userService.addUser(userDto);
+	}
 
-    @PutMapping("/update")
-    public UserDto updateUserWithoutImage(@RequestBody UserDto userDto) {
-        return userService.updateUser(userDto);
-    }
+	//Update a user without image
+	//PUT: http://localhost:8085/user/update
+	@PutMapping("/update")
+	public UserDto updateUserWithoutImage(@RequestBody UserDto userDto) {
+		return userService.updateUser(userDto);
+	}
 
-    @GetMapping
-    public List<UserDto> getAllUsers() {
-        return userService.getAllUsers();
-    }
+	//Get a list of all users 
+	//GET: http://localhost:8085/user
+	@GetMapping
+	public List<UserDto> getAllUsers() {
+		return userService.getAllUsers();
+	}
 
-    @GetMapping("/{id}")
-    public UserDto getUserById(@PathVariable(name = "id") String id) {
-        return userService.getUserById(id);
-    }
+	//Get a user by ID
+	//GET: http://localhost:8085/user/{id}
+	@GetMapping("/{id}")
+	public UserDto getUserById(@PathVariable(name = "id") String id) {
+		return userService.getUserById(id);
+	}
 
+	//Get a list of all Team Leaders 
+	//GET: http://localhost:8085/user/tl
+	@GetMapping(path = "tl")
+	public List<UserEntity> getAllTL() {
+		return userService.getTL();
+	}
 
-    @GetMapping(path="tl")
-    public List<UserEntity> getAllTL(){
-	  return userService.getTL();
-
-    }
-    @DeleteMapping("/{id}")
-    public void deleteUser(@PathVariable(name = "id") String id) {
-        userService.deleteUser(id);
-    }
-
+	//Delete a user
+	//DELETE: http://localhost:8085/user/{id}
+	@DeleteMapping("/{id}")
+	public void deleteUser(@PathVariable(name = "id") String id) {
+		userService.deleteUser(id);
+	}
 
 }

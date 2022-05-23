@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.actia.projects.entities.Log;
+import com.actia.projects.entities.Log.LogType;
 import com.actia.projects.repository.LogsRepository;
 
 @Service
@@ -18,6 +19,7 @@ public class LogServiceImpl  implements LogService {
 	//Create a log
 	@Override
 	public Log createLog(Log log){
+        log.setCreationDate(new java.util.Date());
 		return logsRepository.save(log);
 	}
 	
@@ -50,5 +52,11 @@ public class LogServiceImpl  implements LogService {
 	public 	 void deleteLog(String id) {
 		logsRepository.deleteById(id);
 		
+	}
+	
+	//Get a log by type
+	@Override
+	public String getLogByType() {
+		return logsRepository.findByType(LogType.Ref).get(0).getId();
 	}
 }

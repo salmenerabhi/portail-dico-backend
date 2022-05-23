@@ -24,6 +24,8 @@ public class Security extends WebSecurityConfigurerAdapter  {
 		this.userDetailsService = userDetailsService;
 		this.bCryptPasswordEncoder = bCryptPasswordEncoder;
 	}
+	
+	//the routes that will be allowed without any authorization
 	   @Override
 	    public void configure(WebSecurity web)  {
 	        web.ignoring().antMatchers("/user/resetPassword",
@@ -31,10 +33,14 @@ public class Security extends WebSecurityConfigurerAdapter  {
 	        		"/user/register",
 	        		"/requestfile/download/*",
 	        		"/user/tl",
-	                "/user/sendEmail");
+	                "/user/sendEmail",
+	        		"/tool/image/**");
 	    }
 	
-
+	   //Enable CORS and disable CSRF
+	   //Set session management to stateless
+	   //Set permissions on endpoints
+	   //Add authentication and authorization filter
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 

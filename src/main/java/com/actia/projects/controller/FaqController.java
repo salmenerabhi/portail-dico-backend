@@ -1,7 +1,6 @@
 package com.actia.projects.controller;
 
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -11,9 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.actia.projects.entities.Faq;
 import com.actia.projects.entities.UserEntity;
 import com.actia.projects.repository.UserRepository;
@@ -23,37 +20,40 @@ import com.actia.projects.services.FaqService;
 @RestController
 @RequestMapping("/faq")
 public class FaqController {
-	
-	
+
 	@Autowired
 	FaqService faqService;
-	
 	@Autowired
-	UserRepository userRepository ;
-	
+	UserRepository userRepository;
+
+	//create a FAQ and the relation to its associated user
+	//POST: http://localhost:8085/faq
 	@PostMapping()
-	@ResponseBody
-	public Faq ajouterFaq(@RequestBody Faq faq){
-		UserEntity user=userRepository.findById(faq.getUser().getId()).get()	;
+	public Faq ajouterFaq(@RequestBody Faq faq) {
+		UserEntity user = userRepository.findById(faq.getUser().getId()).get();
 		faq.setUser(user);
-	Faq e3  = faqService.addFaq(faq);
+		Faq e3 = faqService.addFaq(faq);
 		return e3;
 	}
-	
+
+	//Get a list of all FAQs
+	//GET: http://localhost:8085/faq
 	@GetMapping()
-	@ResponseBody
-	public List<Faq> getListFaqs(){
+	public List<Faq> getListFaqs() {
 		return faqService.getAllFaq();
 	}
 	
-	 @DeleteMapping("/{id}")
-	    public void deleteFaq(@PathVariable(name = "id") String id) {
-	        faqService.deletefaq(id);
-	    }
+	//Delete a FAQ by its ID
+	//DELETE: http://localhost:8085/faq/{id}
+	@DeleteMapping("/{id}")
+	public void deleteFaq(@PathVariable(name = "id") String id) {
+		faqService.deletefaq(id);
+	}
 
-	 @PutMapping
-		@ResponseBody 
-	    public Faq updateRequestFile(@RequestBody Faq faq) {
-	        return faqService.updateFaq(faq);
-	    }
+	//Update a FAQ
+	//PUT: http://localhost:8085/faq
+	@PutMapping
+	public Faq updateFaq(@RequestBody Faq faq) {
+		return faqService.updateFaq(faq);
+	}
 }

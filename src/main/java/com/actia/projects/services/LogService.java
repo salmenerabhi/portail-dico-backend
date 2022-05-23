@@ -12,4 +12,5 @@ public interface LogService {
 	Log getLogTTBT (String id);
 	List<Log> getAllLogs();
 	void deleteLog(String id);
+	String getLogByType();
 }

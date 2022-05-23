@@ -12,7 +12,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.actia.projects.dto.UserDto;
-import com.actia.projects.entities.RequestFile;
 import com.actia.projects.entities.UserEntity;
 import com.actia.projects.repository.FaqRepository;
 import com.actia.projects.repository.RequestFileRepository;

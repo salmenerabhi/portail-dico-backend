@@ -1,14 +1,11 @@
 package com.actia.projects.entities;
 
 import java.util.Date;
-
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
@@ -29,6 +26,7 @@ public class Log {
 	private String filename;
 	private String phrase;
 	private Date date;
+	private Date creationDate;
 	
 	@Enumerated(EnumType.STRING)
 	private LogType type;
@@ -50,6 +48,13 @@ public class Log {
 	}
 	public void setNumero(String numero) {
 		this.numero = numero;
+	}
+	
+	public Date getCreationDate() {
+		return creationDate;
+	}
+	public void setCreationDate(Date creationDate) {
+		this.creationDate = creationDate;
 	}
 	public String getInfos() {
 		return infos;
@@ -97,10 +102,8 @@ public class Log {
 
 	public Log() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 	public Log(String numero2, String description2, int infos2) {
-		// TODO Auto-generated constructor stub
 	}
 	
 	

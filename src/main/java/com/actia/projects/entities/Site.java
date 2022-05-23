@@ -1,5 +1,5 @@
 package com.actia.projects.entities;
 
 public enum Site {
-	Multidiag,ATAL,ACTIA_Italie
+	Multidiag,ATAL,ACTIA_Italie,ACTIA_Automotive
 }

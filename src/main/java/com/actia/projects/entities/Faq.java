@@ -1,16 +1,12 @@
 package com.actia.projects.entities;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-
 import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
-import org.hibernate.engine.internal.Cascade;
+
 
 @Entity
 public class Faq {
@@ -70,7 +66,6 @@ public class Faq {
 	}
 	public Faq() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
     
     

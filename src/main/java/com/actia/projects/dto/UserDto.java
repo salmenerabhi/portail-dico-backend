@@ -20,9 +20,15 @@ public class UserDto {
     private Role role;
     private Site site;
     private FileDB image;
-
+    private int nbrFiles;
     
     
+	public int getNbrFiles() {
+		return nbrFiles;
+	}
+	public void setNbrFiles(int nbrFiles) {
+		this.nbrFiles = nbrFiles;
+	}
 	public String getResponsable() {
 		return responsable;
 	}

@@ -3,7 +3,6 @@ package com.actia.projects.entities;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
 
 import org.hibernate.annotations.GenericGenerator;
 
@@ -47,7 +46,6 @@ public class Checklist {
 	}
 	public Checklist() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 	  
 	  

@@ -74,7 +74,6 @@ public class ToolDto {
 
 	public ToolDto() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 	
 	

@@ -28,6 +28,7 @@ public class AuthorizationFilter extends BasicAuthenticationFilter {
                                     HttpServletResponse res,
                                     FilterChain chain) throws IOException, ServletException {
 
+    	// Get authorization header and validate
         String header = req.getHeader(SecurityConstants.HEADER_STRING);
 
         if (header == null || !header.startsWith(SecurityConstants.TOKEN_PREFIX)) {
@@ -35,6 +36,7 @@ public class AuthorizationFilter extends BasicAuthenticationFilter {
             return;
         }
 
+        // Get user identity and set it on the spring security context
         UsernamePasswordAuthenticationToken authentication = getAuthentication(req);
         SecurityContextHolder.getContext().setAuthentication(authentication);
         chain.doFilter(req, res);

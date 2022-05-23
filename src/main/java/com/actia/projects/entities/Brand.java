@@ -42,7 +42,6 @@ public class Brand {
 
 	public Brand() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	public Brand(String marque) {

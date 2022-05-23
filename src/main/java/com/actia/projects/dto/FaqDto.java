@@ -1,6 +1,5 @@
 package com.actia.projects.dto;
 
-import com.actia.projects.entities.UserEntity;
 
 public class FaqDto {
 

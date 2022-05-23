@@ -11,15 +11,10 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
-
 import org.hibernate.annotations.GenericGenerator;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 
 @Entity
@@ -174,7 +169,6 @@ public class RequestFile  implements Serializable {
 	}
 	public RequestFile() {
 		super();
-		// TODO Auto-generated constructor stub
 	}  
 	  
 	

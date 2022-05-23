@@ -1,6 +1,5 @@
 package com.actia.projects.dto;
 
-import java.util.Date;
 import java.time.LocalDateTime;
 public class RequestFileDto {
 
@@ -35,7 +34,6 @@ public class RequestFileDto {
 	}
 	public RequestFileDto() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
     
 	

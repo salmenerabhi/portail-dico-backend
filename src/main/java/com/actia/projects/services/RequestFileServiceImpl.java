@@ -1,34 +1,27 @@
 package com.actia.projects.services;
 
-import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
-import java.util.Objects;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
-import org.springframework.web.multipart.MultipartFile;
 
+import com.actia.projects.dto.RequestFileStatDto;
 import com.actia.projects.dto.StatRequestFiles;
-import com.actia.projects.dto.UserDto;
+import com.actia.projects.dto.TargetStatDto;
 import com.actia.projects.entities.Brand;
-import com.actia.projects.entities.Checklist;
 import com.actia.projects.entities.RequestFile;
-import com.actia.projects.entities.RequestFile.State;
 import com.actia.projects.entities.Target;
-import com.actia.projects.entities.Tool;
 import com.actia.projects.entities.UserEntity;
 import com.actia.projects.repository.BrandRepository;
 import com.actia.projects.repository.ChecklistRepository;
-import com.actia.projects.repository.FileDBRepository;
 import com.actia.projects.repository.RequestFileRepository;
 import com.actia.projects.repository.TargetRepository;
 import com.actia.projects.repository.UserRepository;
-import java.lang.reflect.Type;
-
 import org.modelmapper.ModelMapper;
-import org.modelmapper.TypeToken;
 
 @Service
 public class RequestFileServiceImpl implements RequestFileService{
@@ -56,6 +49,12 @@ public class RequestFileServiceImpl implements RequestFileService{
 		return requestFileRepository.getById(id);
 	}
 	
+	//Get a request file by name
+	@Override
+	public RequestFile getRequestFileByName (String name){
+		return requestFileRepository.findByName(name);
+	}
+		
 	//Update a request file
 	@Override
 	public RequestFile updateRequestFile(RequestFile requestFile){
@@ -75,7 +74,7 @@ public class RequestFileServiceImpl implements RequestFileService{
 	     return requestDto;
 	}
 	
-	//Get a list of all an Finished and Rejected request files 
+	//Get a list of all an Finished and Rejected and Verified request files 
 	@Override	
 	public List<RequestFile> getAllRequestFileFR() {
 		return  requestFileRepository.findAllFR();
@@ -159,6 +158,43 @@ public class RequestFileServiceImpl implements RequestFileService{
 	    stat.setIn_progress(requestFileRepository.countinprogress());
 	    stat.setVerified(requestFileRepository.countverified());
 	    stat.setTo_verify(requestFileRepository.counttoverify());
+	    stat.setNbrdemandes(requestFileRepository.countdemandes());
+	    stat.setNbrapproximation(requestFileRepository.countapproximation());
+	    stat.setNbrdemandestraites(requestFileRepository.countdemandestraites());
+	    stat.setNbrdemandesrejetes(requestFileRepository.countdemandesrejetes());
+	    stat.setNbrapproximationtraites(requestFileRepository.countapproximationtraites());
+	    stat.setNbrapproximationrejetes(requestFileRepository.countapproximationrejetes());
+
 	    return stat;
+	}
+	
+	@Override
+	public int getRfParUser(String id){
+	    return requestFileRepository.countdemandesParUser(id);
+	}
+	@Override
+	public int getRejectedParUser(String id){
+	    return requestFileRepository.countrejectedParUser(id);
+	}
+	
+	@Override
+	public List<TargetStatDto> getStatTargetPerWeek(int year){
+		List<TargetStatDto> targetStats = (List<TargetStatDto>) requestFileRepository.countTarget(year);
+
+	    return targetStats;
+	}
+	
+	@Override
+	public List<RequestFileStatDto> findRejectedFilesByUser (){
+		List<RequestFileStatDto> users =requestFileRepository.findRejectedFilesByUsers();
+
+	    return users;
+	}
+	
+	@Override
+	public List<RequestFileStatDto> findFinishedFilesByUser (){
+		List<RequestFileStatDto> users =requestFileRepository.findFinishedFilesByUsers();
+
+	    return users;
 	}
 	}

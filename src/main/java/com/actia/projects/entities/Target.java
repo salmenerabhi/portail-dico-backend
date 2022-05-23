@@ -43,7 +43,6 @@ public class Target {
 
 	public Target() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	public Target(String cible) {
