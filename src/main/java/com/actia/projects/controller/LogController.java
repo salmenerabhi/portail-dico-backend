@@ -76,6 +76,8 @@ public class LogController {
 				e.printStackTrace();
 			}
 		}
+//		if (log.getType().equals(LogType.Error) || log.getType().equals(LogType.TBBT_FNC) || log.getType().equals(LogType.TBBT_GPC)|| log.getType().equals(LogType.TBBT_MENU)) {
+
 		if (log.getType().equals(LogType.Error) || log.getType().equals(LogType.TBBT)) {
 			File fileerror = new File(
 					"C:/Users/rabhi/OneDrive/Documents/projects/projet pfe/portail-dico/back/portail-dico/src/doc/logs/"
@@ -103,7 +105,7 @@ public class LogController {
 		byte[] bytes = Files.readAllBytes(Paths.get(
 				"C:/Users/rabhi/OneDrive/Documents/projects/projet pfe/portail-dico/back/portail-dico/src/doc/logs/logTTBT.txt"));
 		String s = new String(bytes, StandardCharsets.UTF_8);
-		return getContentes(s);
+		return getContentesttbt(s);
 	}
 	
 	//Get and return the log file content by its ID 
@@ -193,6 +195,18 @@ public class LogController {
 		return logs;
 	}
 
+	public List<Log> getContentesttbt(String s) {
+		String Tableau[] = s.split("\n");
+		List<Log> logs = new ArrayList<>();
+		for (String st : Tableau) {
+			Log log = new Log();
+			
+			log.setFilename(st.substring(0,st.length()-1));
+			logs.add(log);
+		}
+		return logs;
+	}
+
 	//Get the log by its ID
 	//GET: http://localhost:8085/logs/{id}
 	@GetMapping(path = "/{id}")
@@ -261,13 +275,41 @@ public class LogController {
 			File file = new File(
 					"C:/Users/rabhi/OneDrive/Documents/projects/projet pfe/portail-dico/back/portail-dico/src/doc/logs/logError.txt");
 			file.delete();
-		} else {
+		}
+		
+//		else if (logType.equals(LogType.TTBT_FNC)) {
+//			bw3 = new BufferedWriter(new FileWriter(new File(
+//					"C:/Users/rabhi/OneDrive/Documents/projects/projet pfe/portail-dico/back/portail-dico/src/doc/logs/logTTBT_FNC.txt")));
+//			File file = new File(
+//					"C:/Users/rabhi/OneDrive/Documents/projects/projet pfe/portail-dico/back/portail-dico/src/doc/logs/logTTBT_FNC.txt");
+//			file.delete();
+//		}
+//		
+//		else if (logType.equals(LogType.TTBT_GPC)) {
+//			bw3 = new BufferedWriter(new FileWriter(new File(
+//					"C:/Users/rabhi/OneDrive/Documents/projects/projet pfe/portail-dico/back/portail-dico/src/doc/logs/logTTBT_GPC.txt")));
+//			File file = new File(
+//					"C:/Users/rabhi/OneDrive/Documents/projects/projet pfe/portail-dico/back/portail-dico/src/doc/logs/logTTBT_GPC.txt");
+//			file.delete();
+//		}
+//		
+//		else {
+//			bw3 = new BufferedWriter(new FileWriter(new File(
+//					"C:/Users/rabhi/OneDrive/Documents/projects/projet pfe/portail-dico/back/portail-dico/src/doc/logs/logTTBT_MENU.txt")));
+//			File file = new File(
+//					"C:/Users/rabhi/OneDrive/Documents/projects/projet pfe/portail-dico/back/portail-dico/src/doc/logs/logTTBT_MENU.txt");
+//			file.delete();
+//		}
+		
+		else {
 			bw3 = new BufferedWriter(new FileWriter(new File(
 					"C:/Users/rabhi/OneDrive/Documents/projects/projet pfe/portail-dico/back/portail-dico/src/doc/logs/logTTBT.txt")));
 			File file = new File(
 					"C:/Users/rabhi/OneDrive/Documents/projects/projet pfe/portail-dico/back/portail-dico/src/doc/logs/logTTBT.txt");
 			file.delete();
 		}
+
+		
 		bw3.write("Records which are not present in log\n");
 		for (String key : actualrecords.keySet()) {
 			for (int i = 0; i < actualrecords.get(key); i++) {

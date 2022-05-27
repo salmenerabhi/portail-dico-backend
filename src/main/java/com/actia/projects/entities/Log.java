@@ -32,6 +32,8 @@ public class Log {
 	private LogType type;
 	public enum LogType{
 		Error, TBBT, Ref
+//		Error, TBBT_FNC,TBBT_GPC,TBBT_MENU, Ref
+
 		}
 
 	private Fonctionnalite fonctionnalite;

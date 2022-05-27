@@ -9,6 +9,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.actia.projects.dto.NbrMarqueFamille;
 import com.actia.projects.dto.RequestFileStatDto;
 import com.actia.projects.dto.StatRequestFiles;
 import com.actia.projects.dto.TargetStatDto;
@@ -196,5 +197,16 @@ public class RequestFileServiceImpl implements RequestFileService{
 		List<RequestFileStatDto> users =requestFileRepository.findFinishedFilesByUsers();
 
 	    return users;
+	}
+
+	@Override
+	public List<NbrMarqueFamille> findnbrphraseFamilleMarque() {
+		return requestFileRepository.findnbrphraseFamilleMarque();
+	}
+
+	@Override
+	public List<RequestFileStatDto> findTreatmentperRequest() {
+		List<RequestFileStatDto> requests =requestFileRepository.findTreatementbyRequest();
+		return requests;
 	}
 	}

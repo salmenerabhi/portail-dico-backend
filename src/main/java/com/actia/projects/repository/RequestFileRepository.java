@@ -9,6 +9,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
 import org.springframework.stereotype.Repository;
 
+import com.actia.projects.dto.NbrMarqueFamille;
 import com.actia.projects.dto.RequestFileStatDto;
 import com.actia.projects.dto.TargetStatDto;
 import com.actia.projects.entities.RequestFile;
@@ -58,7 +59,6 @@ public interface RequestFileRepository extends JpaRepository<RequestFile, String
 	@Query("SELECT COUNT(r) FROM RequestFile r WHERE r.fileType='Approximation' AND r.state='rejected' ")
     public int countapproximationrejetes();
 	
-
 	
 	@Query(value="SELECT COUNT(*) AS value, date_part('week', echeanceRD) as week FROM request_file r WHERE EXTRACT(year from echeanceRD)= :year GROUP BY week" ,nativeQuery = true)
     public List<TargetStatDto> countTarget(@Param("year") int year);
@@ -73,6 +73,13 @@ public interface RequestFileRepository extends JpaRepository<RequestFile, String
 	
 	@Query(value="SELECT COUNT(*) AS value, first_name as firstname FROM request_file r , users u WHERE r.user_id=u.id AND r.state='finished' GROUP BY firstname" ,nativeQuery = true)
 	List<RequestFileStatDto> findFinishedFilesByUsers ();
+	
+	@Query(value="SELECT famille as famille,marque as marque, SUM(nombrephrase) as nbr FROM request_file r, brand b WHERE r.marque_id=b.id GROUP BY marque, famille" ,nativeQuery = true)
+	List<NbrMarqueFamille> findnbrphraseFamilleMarque ();
+	
+	@Query(value="SELECT name as firstname ,COALESCE(EXTRACT(DAY FROM  echeanceRD- echeanceRC ),0) AS value FROM request_file r;" ,nativeQuery = true)
+	List<RequestFileStatDto> findTreatementbyRequest ();
+	
 	
 	public RequestFile findByName(String name);
 

@@ -26,6 +26,7 @@ public class RequestFile  implements Serializable {
 	private String id;
 	private String name;
 	private String ecu;
+	private String famille;
 	public Date echeanceRC;
 	public Date echeanceRD;
 	private String commentaire;
@@ -75,6 +76,13 @@ public class RequestFile  implements Serializable {
 	}
 	public void setUser(UserEntity user) {
 		this.user = user;
+	}
+	
+	public String getFamille() {
+		return famille;
+	}
+	public void setFamille(String famille) {
+		this.famille = famille;
 	}
 	public List<Checklist> getChecklist() {
 		return checklist;
@@ -169,8 +177,8 @@ public class RequestFile  implements Serializable {
 	}
 	public RequestFile() {
 		super();
-	}  
-	  
+	}
+
 	
 	
 }

@@ -1,12 +1,14 @@
 package com.actia.projects.controller;
 
 import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -41,6 +43,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+import com.actia.projects.dto.NbrMarqueFamille;
 import com.actia.projects.dto.RequestFileStatDto;
 import com.actia.projects.dto.StatRequestFiles;
 import com.actia.projects.dto.TargetStatDto;
@@ -347,7 +350,7 @@ public class RequestFileController {
 		}
 		File file = new File(
 				"C:/Users/rabhi/OneDrive/Documents/projects/MajSuperDico/scriptdico.bat");
-		bw3.write("@echo off \n@echo 		__***__ Mise à jour dico __***__\nrem TortoiseProc.exe /commanF:update /path: \"F:/mdiagdico/trunk/Donnees/Dicos/dicmd.xml\" /closeonenF:1 fr_FR en_GB \nC:\\Users\\rabhi\\OneDrive\\Documents\\projects\\MajSuperDico\\perl\\bin\\perl.exe \"C:\\Users\\rabhi\\OneDrive\\Documents\\projects\\MajSuperDico\\maj_superdico.pl\" \"C:\\Users\\rabhi\\OneDrive\\Documents\\projects\\MajSuperDico\\mapping\" \"C:\\Users\\rabhi\\OneDrive\\Documents\\projects\\MajSuperDico\\dicmd.xml\" \"C:\\Users\\rabhi\\OneDrive\\Documents\\projects\\projet pfe\\portail-dico\\back\\portail-dico\\src\\doc\\files\\"+requestfile.getName() + "\" \"" + langue+ "\" \nrem ../perl/bin/perl \"maj_superdico.pl\" \"F:/mdiagdico/trunk/Donnees/Mapping\" \"F:/mdiagdico/trunk/Donnees/Dicos/dicmd.xml\"  \"F:/mdiagdico/trunk/Donnees/_Request_sentences/Not_Implemented/FR/newUserThesauRequest.xml\" \"fr_FR\" \npause");
+		bw3.write("@echo off \n@echo 		__***__ Mise à jour dico __***__\nC:\\Users\\rabhi\\OneDrive\\Documents\\projects\\MajSuperDico\\bin\\TortoiseProc.exe /commanF:update /path:\"C:\\Users\\rabhi\\OneDrive\\Documents\\projects\\MajSuperDico\\dicmd.xml\" /closeonenF:1 fr_FR en_GB \nC:\\Users\\rabhi\\OneDrive\\Documents\\projects\\MajSuperDico\\perl\\bin\\perl.exe \"C:\\Users\\rabhi\\OneDrive\\Documents\\projects\\MajSuperDico\\maj_superdico.pl\" \"C:\\Users\\rabhi\\OneDrive\\Documents\\projects\\MajSuperDico\\mapping\" \"C:\\Users\\rabhi\\OneDrive\\Documents\\projects\\MajSuperDico\\dicmd.xml\" \"C:\\Users\\rabhi\\OneDrive\\Documents\\projects\\projet pfe\\portail-dico\\back\\portail-dico\\src\\doc\\files\\"+requestfile.getName() + "\" \"" + langue+ "\" \nC:\\Users\\rabhi\\OneDrive\\Documents\\projects\\MajSuperDico\\bin\\TortoiseProc.exe /commanF:commit /path:\"C:\\Users\\rabhi\\OneDrive\\Documents\\projects\\MajSuperDico\\dicmd.xml\" /closeonenF:1 fr_FR en_GB \npause");
 		bw3.flush();
 		bw3.close();
 		launch();
@@ -368,11 +371,17 @@ public class RequestFileController {
 				//GET: http://localhost:8085/requestfile/launch
 				@GetMapping("/launchDecoup")
 				public static void launchScriptDecoupage() throws IOException, InterruptedException {
-					ProcessBuilder builder = new ProcessBuilder(Arrays.asList(new String[] {"cmd.exe", "/C", "start", "C:\\Users\\rabhi\\OneDrive\\Documents\\projects\\Generation_Dico" + File.separator + "decoupMake.bat"}));
-					builder.redirectOutput(ProcessBuilder.Redirect.INHERIT);
-					builder.redirectError(ProcessBuilder.Redirect.INHERIT);
-					Process process = builder.start();
-					process.waitFor();
+					
+					try{
+						File dir = new File("C:/Users/rabhi/OneDrive/Documents/projects/Generation_Dico");
+						            String[] cmdArray = {"decoupMake.bat"};
+						 
+						            Process process = Runtime.getRuntime().exec("C:/Users/rabhi/OneDrive/Documents/projects/Generation_Dico/decoupMake.bat", null, dir);
+						 
+						         
+						        } catch (IOException ex) {
+						            ex.printStackTrace();
+						        }
 					}
 				
 				
@@ -386,6 +395,16 @@ public class RequestFileController {
 				public List<RequestFileStatDto> getfinishedusers() {
 					List<RequestFileStatDto> list = requestFileService.findFinishedFilesByUser();
 					return list;
+				}
+				
+				@GetMapping(path = "nbrmarquefamille")
+				public List<NbrMarqueFamille> getnbrmarquefamille() {
+					return requestFileService.findnbrphraseFamilleMarque();
+				}
+				
+				@GetMapping(path = "/treatment")
+				public List<RequestFileStatDto> gettreatment() {
+					return requestFileService.findTreatmentperRequest();
 				}
 
 	/////////////////////// Schedule /////////////////////////

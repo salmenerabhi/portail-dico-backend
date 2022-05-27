@@ -2,6 +2,7 @@ package com.actia.projects.services;
 
 import java.util.List;
 
+import com.actia.projects.dto.NbrMarqueFamille;
 import com.actia.projects.dto.RequestFileStatDto;
 import com.actia.projects.dto.StatRequestFiles;
 import com.actia.projects.dto.TargetStatDto;
@@ -34,5 +35,7 @@ public interface RequestFileService {
     List<TargetStatDto> getStatTargetPerWeek(int year);
     List<RequestFileStatDto> findRejectedFilesByUser ();
     List<RequestFileStatDto> findFinishedFilesByUser ();
+    List<NbrMarqueFamille> findnbrphraseFamilleMarque ();
+    List<RequestFileStatDto> findTreatmentperRequest ();
 
 }
