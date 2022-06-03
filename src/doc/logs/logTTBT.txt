@@ -1,3 +1,0 @@
-Records which are not present in log
-F:\SVN\FNC\DELIVERY/fnc40000-40999/FNC87101.cpp
-F:\SVN\FNC\DELIVERY/fnc40000-40999/FNC50101.cpp

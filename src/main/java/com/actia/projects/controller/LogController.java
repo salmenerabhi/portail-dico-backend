@@ -42,6 +42,7 @@ public class LogController {
 	LogService logService;
 	@Autowired
 	ServletContext context;
+	
 
 	//Check if the directory of "src/doc/logs" exists or not and if the log exists and if so delete it so the output
 	//of the log comparison will always be up to date and create a log and call the compare method to create the log diff
@@ -76,14 +77,34 @@ public class LogController {
 				e.printStackTrace();
 			}
 		}
-//		if (log.getType().equals(LogType.Error) || log.getType().equals(LogType.TBBT_FNC) || log.getType().equals(LogType.TBBT_GPC)|| log.getType().equals(LogType.TBBT_MENU)) {
 
-		if (log.getType().equals(LogType.Error) || log.getType().equals(LogType.TBBT)) {
+ 		if (log.getType().equals(LogType.Error) ) {
 			File fileerror = new File(
 					"C:/Users/rabhi/OneDrive/Documents/projects/projet pfe/portail-dico/back/portail-dico/src/doc/logs/"
 							+ log.getFilename());
 			compare(log.getType(), fileerror, logService.getLogByType());
 		}
+ 		
+  		else if (log.getType().equals(LogType.TBBT_FNC)){
+  			File fileerror = new File(
+					"C:/Users/rabhi/OneDrive/Documents/projects/projet pfe/portail-dico/back/portail-dico/src/doc/logs/"
+							+ log.getFilename());
+			compare(log.getType(), fileerror, logService.getFNCLogByType());
+  		}
+ 		
+  		else if (log.getType().equals(LogType.TBBT_GPC)){
+  			File fileerror = new File(
+					"C:/Users/rabhi/OneDrive/Documents/projects/projet pfe/portail-dico/back/portail-dico/src/doc/logs/"
+							+ log.getFilename());
+			compare(log.getType(), fileerror, logService.getGPCLogByType());
+  		}
+ 		
+  		else if (log.getType().equals(LogType.TBBT_MENU)){
+  			File fileerror = new File(
+					"C:/Users/rabhi/OneDrive/Documents/projects/projet pfe/portail-dico/back/portail-dico/src/doc/logs/"
+							+ log.getFilename());
+			compare(log.getType(), fileerror, logService.getMENULogByType());
+  		}
 		log.setFilename(file.getOriginalFilename());
 		return logService.createLog(log);
 	}
@@ -100,10 +121,23 @@ public class LogController {
 
 	//Get the content of the output log TTBT :LogTTBT.txt (the output of the comparison between the reference log and the TTBT log)
 	//GET: http://localhost:8085/logs/doc/error
-	@GetMapping(path = "/doc/ttbt")
-	public List<Log> getLogTTBT() throws Exception {
+	@GetMapping(path = "/doc/ttbtfnc")
+	public List<Log> getLogTTBTFNC() throws Exception {
 		byte[] bytes = Files.readAllBytes(Paths.get(
-				"C:/Users/rabhi/OneDrive/Documents/projects/projet pfe/portail-dico/back/portail-dico/src/doc/logs/logTTBT.txt"));
+				"C:/Users/rabhi/OneDrive/Documents/projects/projet pfe/portail-dico/back/portail-dico/src/doc/logs/logTTBT_FNC.txt"));
+		String s = new String(bytes, StandardCharsets.UTF_8);
+		return getContentesttbt(s);
+	}
+	@GetMapping(path = "/doc/ttbtgpc")
+	public List<Log> getLogTTBTGPC() throws Exception {
+		byte[] bytes = Files.readAllBytes(Paths.get(
+				"C:/Users/rabhi/OneDrive/Documents/projects/projet pfe/portail-dico/back/portail-dico/src/doc/logs/logTTBT_GPC.txt"));
+		String s = new String(bytes, StandardCharsets.UTF_8);
+		return getContentesttbt(s);
+	}	@GetMapping(path = "/doc/ttbtmenu")
+	public List<Log> getLogTTBTMENU() throws Exception {
+		byte[] bytes = Files.readAllBytes(Paths.get(
+				"C:/Users/rabhi/OneDrive/Documents/projects/projet pfe/portail-dico/back/portail-dico/src/doc/logs/logTTBT_MENU.txt"));
 		String s = new String(bytes, StandardCharsets.UTF_8);
 		return getContentesttbt(s);
 	}
@@ -229,7 +263,7 @@ public class LogController {
 	}
 
 	//Read the reference log and the log(error or TTBT) line by line and compare both of them and extract the difference (the lines 
-	//existent in the log (error or TTBT) and inexistant in the reference log
+	//existent in the log (error or TTBT) and inexistent in the reference log
 	public void compare(LogType logType, File id, String idRef) throws Exception {
 		BufferedReader br1 = null;
 		BufferedReader br2 = null;
@@ -274,41 +308,34 @@ public class LogController {
 					"C:/Users/rabhi/OneDrive/Documents/projects/projet pfe/portail-dico/back/portail-dico/src/doc/logs/logError.txt")));
 			File file = new File(
 					"C:/Users/rabhi/OneDrive/Documents/projects/projet pfe/portail-dico/back/portail-dico/src/doc/logs/logError.txt");
+	
 			file.delete();
 		}
 		
-//		else if (logType.equals(LogType.TTBT_FNC)) {
-//			bw3 = new BufferedWriter(new FileWriter(new File(
-//					"C:/Users/rabhi/OneDrive/Documents/projects/projet pfe/portail-dico/back/portail-dico/src/doc/logs/logTTBT_FNC.txt")));
-//			File file = new File(
-//					"C:/Users/rabhi/OneDrive/Documents/projects/projet pfe/portail-dico/back/portail-dico/src/doc/logs/logTTBT_FNC.txt");
-//			file.delete();
-//		}
-//		
-//		else if (logType.equals(LogType.TTBT_GPC)) {
-//			bw3 = new BufferedWriter(new FileWriter(new File(
-//					"C:/Users/rabhi/OneDrive/Documents/projects/projet pfe/portail-dico/back/portail-dico/src/doc/logs/logTTBT_GPC.txt")));
-//			File file = new File(
-//					"C:/Users/rabhi/OneDrive/Documents/projects/projet pfe/portail-dico/back/portail-dico/src/doc/logs/logTTBT_GPC.txt");
-//			file.delete();
-//		}
-//		
-//		else {
-//			bw3 = new BufferedWriter(new FileWriter(new File(
-//					"C:/Users/rabhi/OneDrive/Documents/projects/projet pfe/portail-dico/back/portail-dico/src/doc/logs/logTTBT_MENU.txt")));
-//			File file = new File(
-//					"C:/Users/rabhi/OneDrive/Documents/projects/projet pfe/portail-dico/back/portail-dico/src/doc/logs/logTTBT_MENU.txt");
-//			file.delete();
-//		}
+		else if (logType.equals(LogType.TBBT_FNC)) {
+			bw3 = new BufferedWriter(new FileWriter(new File(
+					"C:/Users/rabhi/OneDrive/Documents/projects/projet pfe/portail-dico/back/portail-dico/src/doc/logs/logTTBT_FNC.txt")));
+			File file = new File(
+					"C:/Users/rabhi/OneDrive/Documents/projects/projet pfe/portail-dico/back/portail-dico/src/doc/logs/logTTBT_FNC.txt");
+			file.delete();
+		}
+		
+		else if (logType.equals(LogType.TBBT_GPC)) {
+			bw3 = new BufferedWriter(new FileWriter(new File(
+					"C:/Users/rabhi/OneDrive/Documents/projects/projet pfe/portail-dico/back/portail-dico/src/doc/logs/logTTBT_GPC.txt")));
+			File file = new File(
+					"C:/Users/rabhi/OneDrive/Documents/projects/projet pfe/portail-dico/back/portail-dico/src/doc/logs/logTTBT_GPC.txt");
+			file.delete();
+		}
 		
 		else {
 			bw3 = new BufferedWriter(new FileWriter(new File(
-					"C:/Users/rabhi/OneDrive/Documents/projects/projet pfe/portail-dico/back/portail-dico/src/doc/logs/logTTBT.txt")));
+					"C:/Users/rabhi/OneDrive/Documents/projects/projet pfe/portail-dico/back/portail-dico/src/doc/logs/logTTBT_MENU.txt")));
 			File file = new File(
-					"C:/Users/rabhi/OneDrive/Documents/projects/projet pfe/portail-dico/back/portail-dico/src/doc/logs/logTTBT.txt");
+					"C:/Users/rabhi/OneDrive/Documents/projects/projet pfe/portail-dico/back/portail-dico/src/doc/logs/logTTBT_MENU.txt");
 			file.delete();
 		}
-
+		
 		
 		bw3.write("Records which are not present in log\n");
 		for (String key : actualrecords.keySet()) {

@@ -9,7 +9,11 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.actia.projects.dto.CalendarEvents;
 import com.actia.projects.dto.NbrMarqueFamille;
+import com.actia.projects.dto.NbrMarqueFamilleRole;
+import com.actia.projects.dto.NbrMarqueSite;
+import com.actia.projects.dto.NbrRejectedRCDateDto;
 import com.actia.projects.dto.RequestFileStatDto;
 import com.actia.projects.dto.StatRequestFiles;
 import com.actia.projects.dto.TargetStatDto;
@@ -208,5 +212,92 @@ public class RequestFileServiceImpl implements RequestFileService{
 	public List<RequestFileStatDto> findTreatmentperRequest() {
 		List<RequestFileStatDto> requests =requestFileRepository.findTreatementbyRequest();
 		return requests;
+	}
+
+	@Override
+	public List<NbrMarqueSite> findnbrphraseMarqueSite() {
+		return requestFileRepository.findnbrphraseMarqueSite();
+
+	}
+
+	@Override
+	public List<NbrMarqueSite> findnbrphraseMarqueSiteweek() {
+		return requestFileRepository.findnbrphraseMarqueSiteweek();
+
+	}
+
+	@Override
+	public List<NbrMarqueSite> findnbrphraseMarqueSitemonth() {
+		return requestFileRepository.findnbrphraseMarqueSitemonth();
+
+	}
+	
+	@Override
+	public List<NbrMarqueSite> findnbrphraseMarqueSiteyear() {
+		return requestFileRepository.findnbrphraseMarqueSiteyear();
+
+	}
+
+	@Override
+	public List<NbrMarqueSite> findnbrphraseMarqueSitecible() {
+		return requestFileRepository.findnbrphraseMarqueSitecible();
+
+	}
+
+	@Override
+	public List<NbrRejectedRCDateDto> NbrRejectedRCday() {
+		return requestFileRepository.NbrRejectedRCday();
+
+	}
+
+
+
+	@Override
+	public List<NbrRejectedRCDateDto> NbrRejectedRCweek() {
+		return requestFileRepository.NbrRejectedRCweek();
+
+	}
+
+	@Override
+	public List<NbrRejectedRCDateDto> NbrRejectedRCmonth() {
+		return requestFileRepository.NbrRejectedRCmonth();
+
+	}
+
+	@Override
+	public List<NbrRejectedRCDateDto> NbrRejectedRCyear() {
+		return requestFileRepository.NbrRejectedRCyear();
+
+	}
+
+	@Override
+	public List<NbrRejectedRCDateDto> NbrRejectedRCcible() {
+		return requestFileRepository.NbrRejectedRCcible();
+
+	}
+
+	@Override
+	public List<RequestFileStatDto> findnbrbymarque() {
+		return requestFileRepository.findnbrbymarque();
+
+	}
+
+	@Override
+	public List<RequestFileStatDto> findnbrRejectedbymarque() {
+		return requestFileRepository.findnbrRejectedbymarque();
+
+	}
+
+	@Override
+	public List<NbrMarqueFamilleRole> findnbrbymarqueFamilleRole() {
+		return requestFileRepository.findnbrbymarquerole();
+
+	}
+
+	@Override
+	public List <CalendarEvents> getEvents() {
+		return requestFileRepository.findEvents();
+
+
 	}
 	}

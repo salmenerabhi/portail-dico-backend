@@ -1,0 +1,2 @@
+Records which are not present in log
+F:\SVN\FNC\DELIVERY/fnc40000-40999/FNC220094.cpp

@@ -31,9 +31,7 @@ public class Log {
 	@Enumerated(EnumType.STRING)
 	private LogType type;
 	public enum LogType{
-		Error, TBBT, Ref
-//		Error, TBBT_FNC,TBBT_GPC,TBBT_MENU, Ref
-
+		Error, TBBT_FNC,TBBT_GPC,TBBT_MENU, Ref, TBBT_FNC_Ref,TBBT_GPC_Ref,TBBT_MENU_Ref
 		}
 
 	private Fonctionnalite fonctionnalite;

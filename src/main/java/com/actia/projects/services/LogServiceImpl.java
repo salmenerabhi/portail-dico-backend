@@ -30,16 +30,16 @@ public class LogServiceImpl  implements LogService {
 	}
 	
 	//Get the error log
-	@Override
-	public Log getLogError (String id){
-		return logsRepository.findLogError();
-	}
+//	@Override
+//	public Log getLogError (String id){
+//		return logsRepository.findLogError();
+//	}
 	
 	//Get the TTBT log
-	@Override
-		public Log getLogTTBT (String id){
-			return logsRepository.findLogTTBT();
-		}
+//	@Override
+//		public Log getLogTTBT (String id){
+//			return logsRepository.findLogTTBT();
+//		}
 		
 	//Get a list of all logs
 	@Override
@@ -58,5 +58,22 @@ public class LogServiceImpl  implements LogService {
 	@Override
 	public String getLogByType() {
 		return logsRepository.findByType(LogType.Ref).get(0).getId();
+	}
+
+	@Override
+	public String getFNCLogByType() {
+		return logsRepository.findByType(LogType.TBBT_FNC_Ref).get(0).getId();
+	}
+
+	@Override
+	public String getGPCLogByType() {
+		return logsRepository.findByType(LogType.TBBT_GPC_Ref).get(0).getId();
+
+	}
+
+	@Override
+	public String getMENULogByType() {
+		return logsRepository.findByType(LogType.TBBT_MENU_Ref).get(0).getId();
+
 	}
 }

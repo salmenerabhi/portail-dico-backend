@@ -43,7 +43,11 @@ import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+import com.actia.projects.dto.CalendarEvents;
 import com.actia.projects.dto.NbrMarqueFamille;
+import com.actia.projects.dto.NbrMarqueFamilleRole;
+import com.actia.projects.dto.NbrMarqueSite;
+import com.actia.projects.dto.NbrRejectedRCDateDto;
 import com.actia.projects.dto.RequestFileStatDto;
 import com.actia.projects.dto.StatRequestFiles;
 import com.actia.projects.dto.TargetStatDto;
@@ -402,6 +406,60 @@ public class RequestFileController {
 					return requestFileService.findnbrphraseFamilleMarque();
 				}
 				
+				@GetMapping(path = "nbrmarquesite")
+				public List<NbrMarqueSite> getnbrmarquesite() {
+					return requestFileService.findnbrphraseMarqueSite();
+				}
+				@GetMapping(path = "nbrmarquesiteweek")
+				public List<NbrMarqueSite> getnbrmarquesiteweek() {
+					return requestFileService.findnbrphraseMarqueSiteweek();
+				}
+				@GetMapping(path = "nbrmarquesitemonth")
+				public List<NbrMarqueSite> getnbrmarquesitemonth() {
+					return requestFileService.findnbrphraseMarqueSitemonth();
+				}
+				@GetMapping(path = "nbrmarquesiteyear")
+				public List<NbrMarqueSite> getnbrmarquesiteyear() {
+					return requestFileService.findnbrphraseMarqueSiteyear();
+				}
+				@GetMapping(path = "nbrmarquesitecible")
+				public List<NbrMarqueSite> getnbrmarquesitecible() {
+					return requestFileService.findnbrphraseMarqueSitecible();
+				}
+				
+				
+				@GetMapping(path = "nbrrejectedrcday")
+				public List<NbrRejectedRCDateDto> getNbrRejectedRCDay() {
+					return requestFileService.NbrRejectedRCday();
+				}
+				@GetMapping(path = "nbrrejectedrcweek")
+				public List<NbrRejectedRCDateDto> getNbrRejectedRCweek() {
+					return requestFileService.NbrRejectedRCweek();
+				}
+				@GetMapping(path = "nbrrejectedrcmonth")
+				public List<NbrRejectedRCDateDto> getNbrRejectedRCmonth() {
+					return requestFileService.NbrRejectedRCmonth();
+				}
+				@GetMapping(path = "nbrrejectedrcyear")
+				public List<NbrRejectedRCDateDto> getNbrRejectedRCyear() {
+					return requestFileService.NbrRejectedRCyear();
+				}
+				@GetMapping(path = "nbrrejectedrccible")
+				public List<NbrRejectedRCDateDto> getNbrRejectedRCcible() {
+					return requestFileService.NbrRejectedRCcible();
+				}
+				@GetMapping(path = "nbrbymarque")
+				public List<RequestFileStatDto> getnbrbymarque() {
+					return requestFileService.findnbrbymarque();
+				}
+				@GetMapping(path = "nbrrejectedbymarque")
+				public List<RequestFileStatDto> getnbrRejectedbymarque() {
+					return requestFileService.findnbrRejectedbymarque();
+				}	
+				@GetMapping(path = "nbrrejectedbymarquerole")
+				public List<NbrMarqueFamilleRole> getnbrRejectedbymarquerole() {
+					return requestFileService.findnbrbymarqueFamilleRole();
+				}
 				@GetMapping(path = "/treatment")
 				public List<RequestFileStatDto> gettreatment() {
 					return requestFileService.findTreatmentperRequest();
@@ -434,5 +492,8 @@ public class RequestFileController {
 		return e;
 	}
 	
-	
+	@GetMapping("/events")
+	public  List<CalendarEvents> getEvents() {
+		return requestFileService.getEvents();
+	}
 }

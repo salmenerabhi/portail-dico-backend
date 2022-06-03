@@ -2,7 +2,11 @@ package com.actia.projects.services;
 
 import java.util.List;
 
+import com.actia.projects.dto.CalendarEvents;
 import com.actia.projects.dto.NbrMarqueFamille;
+import com.actia.projects.dto.NbrMarqueFamilleRole;
+import com.actia.projects.dto.NbrMarqueSite;
+import com.actia.projects.dto.NbrRejectedRCDateDto;
 import com.actia.projects.dto.RequestFileStatDto;
 import com.actia.projects.dto.StatRequestFiles;
 import com.actia.projects.dto.TargetStatDto;
@@ -32,10 +36,30 @@ public interface RequestFileService {
     int getRfParUser(String id);
     RequestFile getRequestFileByName (String name);
     int getRejectedParUser(String id);
+    
+    
     List<TargetStatDto> getStatTargetPerWeek(int year);
     List<RequestFileStatDto> findRejectedFilesByUser ();
     List<RequestFileStatDto> findFinishedFilesByUser ();
     List<NbrMarqueFamille> findnbrphraseFamilleMarque ();
     List<RequestFileStatDto> findTreatmentperRequest ();
+    List<NbrMarqueSite> findnbrphraseMarqueSite ();
+    List<NbrMarqueSite> findnbrphraseMarqueSiteweek ();
+    List<NbrMarqueSite> findnbrphraseMarqueSitemonth ();
+    List<NbrMarqueSite> findnbrphraseMarqueSiteyear ();
+    List<NbrMarqueSite> findnbrphraseMarqueSitecible ();
+    List<NbrRejectedRCDateDto> NbrRejectedRCday ();
+    List<NbrRejectedRCDateDto> NbrRejectedRCweek ();
+    List<NbrRejectedRCDateDto> NbrRejectedRCmonth ();
+    List<NbrRejectedRCDateDto> NbrRejectedRCyear ();
+    List<NbrRejectedRCDateDto> NbrRejectedRCcible ();
+    List<RequestFileStatDto> findnbrbymarque ();
+    List<RequestFileStatDto> findnbrRejectedbymarque ();
+    List<NbrMarqueFamilleRole> findnbrbymarqueFamilleRole ();
+
+
+    List <CalendarEvents> getEvents();
+
+
 
 }

@@ -11,11 +11,11 @@ import com.actia.projects.entities.Log.LogType;
 
 public interface LogsRepository extends  JpaRepository<Log,String> {
 
-	@Query("Select l from Log l  where l.type='Error'")
-	public Log findLogError ();
+//	@Query("Select l from Log l  where l.type='Error'")
+//	public Log findLogError ();
 	
-	@Query("Select l from Log l  where l.type='TTBT'")
-	public Log findLogTTBT ();
+//	@Query("Select l from Log l  where l.type='TTBT'")
+//	public Log findLogTTBT ();
 	
 	List<Log> findByType(LogType type);
 }
