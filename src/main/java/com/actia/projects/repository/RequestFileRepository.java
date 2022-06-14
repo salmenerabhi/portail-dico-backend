@@ -102,15 +102,15 @@ public interface RequestFileRepository extends JpaRepository<RequestFile, String
 	List<NbrMarqueSite> findnbrphraseMarqueSitecible ();
 	
 	// find number of phrases per brand and per site
-	@Query(value="SELECT COUNT(*) AS value, first_name as firstname ,date_part('day', echeanceRD) as date FROM request_file r , users u WHERE r.user_id=u.id AND r.state='rejected' GROUP BY  date, firstname ORDER BY firstname" ,nativeQuery = true)
+	@Query(value="SELECT COUNT(*) AS value, first_name as firstname ,to_char(echeanceRD, 'dd/mon') as date FROM request_file r , users u WHERE extract(month from echeanceRD)=extract(month from current_date) and extract(year from echeanceRD)=extract(year from current_date) and r.user_id=u.id AND r.state='rejected' GROUP BY  date, firstname ORDER BY firstname" ,nativeQuery = true)
 	List<NbrRejectedRCDateDto> NbrRejectedRCday ();
-	@Query(value="SELECT COUNT(*) AS value, first_name as firstname ,date_part('week', echeanceRD) as date FROM request_file r , users u WHERE r.user_id=u.id AND r.state='rejected' GROUP BY  date, firstname ORDER BY firstname" ,nativeQuery = true)
+	@Query(value="SELECT COUNT(*) AS value, first_name as firstname ,CONCAT('S',date_part('week', echeanceRD)) as date FROM request_file r , users u WHERE extract(year from echeanceRD)=extract(year from current_date) and r.user_id=u.id AND r.state='rejected' GROUP BY  date, firstname ORDER BY firstname" ,nativeQuery = true)
 	List<NbrRejectedRCDateDto> NbrRejectedRCweek ();
-	@Query(value="SELECT COUNT(*) AS value, first_name as firstname ,date_part('month', echeanceRD) as date FROM request_file r , users u WHERE r.user_id=u.id AND r.state='rejected' GROUP BY  date, firstname ORDER BY firstname" ,nativeQuery = true)
+	@Query(value="SELECT COUNT(*) AS value, first_name as firstname ,to_char(echeanceRD, 'Mon') as date FROM request_file r , users u WHERE extract(year from echeanceRD)=extract(year from current_date) and r.user_id=u.id AND r.state='rejected' GROUP BY  date, firstname ORDER BY firstname" ,nativeQuery = true)
 	List<NbrRejectedRCDateDto> NbrRejectedRCmonth ();
-	@Query(value="SELECT COUNT(*) AS value, first_name as firstname ,date_part('year', echeanceRD) as date FROM request_file r , users u WHERE r.user_id=u.id AND r.state='rejected' GROUP BY  date, firstname ORDER BY firstname" ,nativeQuery = true)
+	@Query(value="SELECT COUNT(*) AS value, first_name as firstname , CAST(date_part('year', echeanceRD) as INTEGER) as date FROM request_file r , users u WHERE r.user_id=u.id AND r.state='rejected' GROUP BY  date, firstname ORDER BY firstname" ,nativeQuery = true)
 	List<NbrRejectedRCDateDto> NbrRejectedRCyear ();
-	@Query(value="SELECT COUNT(*) AS value, first_name as firstname ,CAST(cible AS INTEGER) as date FROM request_file r , users u, target c WHERE r.user_id=u.id AND r.state='rejected' AND r.cible_id=c.id GROUP BY  date, firstname ORDER BY firstname" ,nativeQuery = true)
+	@Query(value="SELECT COUNT(*) AS value, first_name as firstname ,cible as date FROM request_file r , users u, target c WHERE r.user_id=u.id AND r.state='rejected' AND r.cible_id=c.id GROUP BY  date, firstname ORDER BY firstname" ,nativeQuery = true)
 	List<NbrRejectedRCDateDto> NbrRejectedRCcible ();
 	
 	//

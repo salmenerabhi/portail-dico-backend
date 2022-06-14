@@ -34,7 +34,9 @@ public class Security extends WebSecurityConfigurerAdapter  {
 	        		"/requestfile/download/*",
 	        		"/user/tl",
 	                "/user/sendEmail",
-	        		"/tool/image/**");
+	        		"/tool/image/**",
+	        		"/notify",
+	        		"/socket/**");
 	    }
 	
 	   //Enable CORS and disable CSRF

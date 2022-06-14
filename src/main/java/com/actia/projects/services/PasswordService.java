@@ -8,4 +8,5 @@ public interface PasswordService {
 
 	void resetPassword(ResetPassword resetPassword,String email);
 	void sendEmail(String email)throws MessagingException;
+	
 }

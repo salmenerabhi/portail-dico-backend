@@ -8,6 +8,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
+import com.actia.projects.controller.NotificationController;
 import com.actia.projects.dto.ResetPassword;
 import com.actia.projects.dto.UserDto;
 
@@ -20,6 +21,8 @@ public class PasswordServiceImpl implements PasswordService{
 	public JavaMailSender emailSender;
 	@Autowired
 	JwtUtil jwtUtil;
+	@Autowired
+	NotificationController notificationController;
 	
 	//Reset password
 	@Override
@@ -49,5 +52,7 @@ public class PasswordServiceImpl implements PasswordService{
 	      this.emailSender.send(message);
 		 }
 	}
+	
+	
 
 }

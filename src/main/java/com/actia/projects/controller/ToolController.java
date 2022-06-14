@@ -3,6 +3,8 @@ package com.actia.projects.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.web.multipart.MultipartFile;
+
+import com.actia.projects.entities.Notifications;
 import com.actia.projects.entities.Tool;
 import com.actia.projects.services.ToolService;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -28,7 +30,8 @@ public class ToolController {
 
 	@Autowired
 	private Environment env; 
-	
+	@Autowired
+	NotificationController notificationController;
 	
 	//Check if the directory of "src/doc" and if the tool exists or not and create a tool and its associated image
 	//POST: http://localhost:8085/tool
@@ -68,6 +71,10 @@ public class ToolController {
 		}
 		tool.setImage(image.getOriginalFilename());
 		tool.setName(file.getOriginalFilename());
+		Notifications notifications =new Notifications(0,"");
+		notifications.setMessage("Le responsable dico a ajouté un nouveau outil "+ tool.getName());
+		
+		notificationController.getNotification(notifications);
 		return toolService.createTool(tool);
 	}
 

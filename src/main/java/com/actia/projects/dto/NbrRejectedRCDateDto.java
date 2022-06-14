@@ -4,6 +4,6 @@ public interface NbrRejectedRCDateDto {
 
 	int getValue();
 	String getFirstname();
-	int getDate();
+	String getDate();
 
 }

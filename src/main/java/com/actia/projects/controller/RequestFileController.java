@@ -27,6 +27,7 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -52,6 +53,7 @@ import com.actia.projects.dto.RequestFileStatDto;
 import com.actia.projects.dto.StatRequestFiles;
 import com.actia.projects.dto.TargetStatDto;
 import com.actia.projects.entities.Brand;
+import com.actia.projects.entities.Notifications;
 import com.actia.projects.entities.RequestFile;
 import com.actia.projects.entities.RequestFile.Langue;
 import com.actia.projects.entities.RequestFile.State;
@@ -74,8 +76,10 @@ public class RequestFileController {
 	RequestFileRepository requestFileRepository;
 	@Autowired
 	ServletContext context;
-
-
+	@Autowired
+	NotificationController notificationController;
+	@Autowired
+    private SimpMessagingTemplate template;
 	//Check if the directory of "src/doc/files" and if the directory exists or not and create a request file and launch the count method
 	//POST: http://localhost:8085/requestfile
 	@PostMapping
@@ -105,6 +109,7 @@ public class RequestFileController {
 		}		
 		requestfile.setName(distfile1);
 	 requestFileService.createRequestFile(requestfile);
+
 		return count(requestfile.getName());
 	}
 
@@ -127,6 +132,11 @@ public class RequestFileController {
 			requestfile.setState(State.to_verify);
 			requestFileService.updateRequestFile(requestfile);
 		}
+		String user = requestFileService.getuserName(requestfile.getUser().getId());
+		 Notifications notifications =new Notifications(0,"");
+			notifications.setMessage( user +" a ajouté une nouvelle demande phrase " + requestfile.getName() +" avec " + requestfile.getNombrephrase() + " phrases");
+			
+			notificationController.getNotification(notifications);
 		return requestfile;
 	}
 	
@@ -225,6 +235,11 @@ public class RequestFileController {
 	//PUT: http://localhost:8085/requestfile
 	@PutMapping
 	public RequestFile updateRequestFile(@RequestBody RequestFile requestFile) {
+		Notifications notifications =new Notifications(0,"");
+		notifications.setMessage("L'état de la demande " + requestFile.getName() +" a changé à " +requestFile.getState());
+		
+		notificationController.getNotification(notifications);
+		
 		return requestFileService.updateRequestFile(requestFile);
 	}
 
@@ -357,6 +372,7 @@ public class RequestFileController {
 		bw3.write("@echo off \n@echo 		__***__ Mise à jour dico __***__\nC:\\Users\\rabhi\\OneDrive\\Documents\\projects\\MajSuperDico\\bin\\TortoiseProc.exe /commanF:update /path:\"C:\\Users\\rabhi\\OneDrive\\Documents\\projects\\MajSuperDico\\dicmd.xml\" /closeonenF:1 fr_FR en_GB \nC:\\Users\\rabhi\\OneDrive\\Documents\\projects\\MajSuperDico\\perl\\bin\\perl.exe \"C:\\Users\\rabhi\\OneDrive\\Documents\\projects\\MajSuperDico\\maj_superdico.pl\" \"C:\\Users\\rabhi\\OneDrive\\Documents\\projects\\MajSuperDico\\mapping\" \"C:\\Users\\rabhi\\OneDrive\\Documents\\projects\\MajSuperDico\\dicmd.xml\" \"C:\\Users\\rabhi\\OneDrive\\Documents\\projects\\projet pfe\\portail-dico\\back\\portail-dico\\src\\doc\\files\\"+requestfile.getName() + "\" \"" + langue+ "\" \nC:\\Users\\rabhi\\OneDrive\\Documents\\projects\\MajSuperDico\\bin\\TortoiseProc.exe /commanF:commit /path:\"C:\\Users\\rabhi\\OneDrive\\Documents\\projects\\MajSuperDico\\dicmd.xml\" /closeonenF:1 fr_FR en_GB \npause");
 		bw3.flush();
 		bw3.close();
+
 		launch();
 		}
 
@@ -464,6 +480,7 @@ public class RequestFileController {
 				public List<RequestFileStatDto> gettreatment() {
 					return requestFileService.findTreatmentperRequest();
 				}
+				
 
 	/////////////////////// Schedule /////////////////////////
 	
